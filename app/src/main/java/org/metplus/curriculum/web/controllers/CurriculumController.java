@@ -116,4 +116,11 @@ public class CurriculumController {
 
         return new ResponseEntity<GenericAnswer>(answer, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/process", method = RequestMethod.GET)
+    public ResponseEntity processAll() {
+        for(Resume resume: resumeRepository.findAll()) {
+            resume.isCruncherDataAvailable();
+        }
+    }
 }
