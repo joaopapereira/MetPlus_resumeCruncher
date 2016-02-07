@@ -6,6 +6,7 @@ import org.metplus.curriculum.database.domain.Resume;
 import org.metplus.curriculum.database.exceptions.ResumeNotFound;
 import org.metplus.curriculum.database.exceptions.ResumeReadException;
 import org.metplus.curriculum.database.repository.ResumeRepository;
+import org.metplus.curriculum.process.CrunchResume;
 import org.metplus.curriculum.web.GenericAnswer;
 import org.metplus.curriculum.web.ResultCodes;
 import  org.apache.log4j.Logger;
@@ -118,9 +119,15 @@ public class CurriculumController {
     }
 
     @RequestMapping(value = "/process", method = RequestMethod.GET)
-    public ResponseEntity processAll() {
-        for(Resume resume: resumeRepository.findAll()) {
-            resume.isCruncherDataAvailable();
-        }
+    public ResponseEntity<?> processAll() {
+        LOG.trace("processAll()");
+        CrunchResume cruncher = new CrunchResume();
+        LOG.debug("Launch background Resume processing");
+        new Thread(cruncher).start();
+
+        GenericAnswer answer = new GenericAnswer();
+        answer.setMessage("Processing started");
+        answer.setResultCode(ResultCodes.SUCCESS);
+        return new ResponseEntity<GenericAnswer>(answer, HttpStatus.OK);
     }
 }

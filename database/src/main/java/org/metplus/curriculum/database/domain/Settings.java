@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Document(collection="settings")
 @TypeAlias("settings")
@@ -113,6 +114,16 @@ public class Settings extends AbstractDocument implements Serializable{
     public void clear() {
         cruncherSettings.clear();
         appSettings.clear();
+    }
+
+    /**
+     * Retrieve all the names of the crunchers
+     * @return List with cruncher names
+     */
+    public List<String> getAllCrunchers() {
+        List<String> allCrunchers = new ArrayList<>();
+        cruncherSettings.forEach((key, value)-> allCrunchers.add(key));
+        return allCrunchers;
     }
 
     @Override
