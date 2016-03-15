@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
 <meta name="author" content="Joao Pereira">
-<title>Example Manual</title>
+<title>PETS Resume cruncher API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -505,7 +505,7 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Example Manual</h1>
+<h1>PETS Resume cruncher API Documentation</h1>
 <div class="details">
 <span id="author" class="author">Joao Pereira</span><br>
 <span id="email" class="email"><a href="mailto:joaopapereira@gmail.com">joaopapereira@gmail.com</a></span><br>
@@ -516,7 +516,6 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#attributes">Attributes</a></li>
 <li><a href="#authentication">Authentication</a></li>
 <li><a href="#curriculum">Curriculum</a></li>
 </ul>
@@ -540,53 +539,6 @@ We just haven&#8217;t decided what that is yet.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="attributes">Attributes</h2>
-<div class="sectionbody">
-<div class="dlist">
-<div class="title">Built-in</div>
-<dl>
-<dt class="hdlist1">asciidoctor-version</dt>
-<dd>
-<p>1.5.2</p>
-</dd>
-<dt class="hdlist1">safe-mode-name</dt>
-<dd>
-<p>unsafe</p>
-</dd>
-<dt class="hdlist1">docdir</dt>
-<dd>
-<p>/home/joao/workspace/MetPlus_resumeCruncher/app/src/docs/asciidoc</p>
-</dd>
-<dt class="hdlist1">docfile</dt>
-<dd>
-<p>/home/joao/workspace/MetPlus_resumeCruncher/app/src/docs/asciidoc/example-manual.adoc</p>
-</dd>
-<dt class="hdlist1">imagesdir</dt>
-<dd>
-<p>./images</p>
-</dd>
-</dl>
-</div>
-<div class="dlist">
-<div class="title">Custom</div>
-<dl>
-<dt class="hdlist1">project-version</dt>
-<dd>
-<p>unspecified</p>
-</dd>
-<dt class="hdlist1">sourcedir</dt>
-<dd>
-<p>/home/joao/workspace/MetPlus_resumeCruncher/app/src/main/java</p>
-</dd>
-<dt class="hdlist1">endpoint-url</dt>
-<dd>
-<p><a href="http://example.org" class="bare">http://example.org</a></p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="authentication">Authentication</h2>
 <div class="sectionbody">
 <div class="exampleblock">
@@ -606,17 +558,41 @@ X-Auth-Password: backendpassword
 Host: localhost</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Username user to authenticate the client</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the user to authenticate the client</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Response</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-Content-Length: 585
-
-This is just for in-code-documentation purposes and Rest API reference documentation.Servlet will never get to this point as Http requests are processed by AuthenticationFilter.Nonetheless to authenticate Domain User POST request with X-Auth-Username and X-Auth-Password headers is mandatory to this URL. If username and password are correct valid token will be returned (just json string in response) This token must be present in X-Auth-Token header in all requests for all other URLs, including logout.Authentication can be issued multiple times and each call results in new ticket.</code></pre>
+{
+  &quot;token&quot;: &quot;1231-12312-12312&quot;
+}</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The token variable should be used in all the subsequent requests.</p>
 </div>
 </div>
 </div>
@@ -628,7 +604,7 @@ This is just for in-code-documentation purposes and Rest API reference documenta
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>=== Upload Resume</p>
+<p><strong>Upload Resume</strong></p>
 </div>
 <div class="paragraph">
 <p>Request</p>
@@ -636,216 +612,56 @@ This is just for in-code-documentation purposes and Rest API reference documenta
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/curriculum/upload HTTP/1.1
-Content-Type: multipart/form-data; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Accept: application/json
-X-Auth-Token: 123123123
-Host: localhost
-
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=userId
-
-asdasdasd
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=name
-
-line_with_bold.pdf
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=file
-
-%PDF-1.5
-%����
-1 0 obj&lt;&lt;/Length 405/Filter/FlateDecode&gt;&gt;stream
-x��Q�N�0 ��9� ��CBE��) m�� q@i*@��� ����&gt;�� Y���ݙٱ �u �c�c � ��b�� ��.zw�(�� ��͞�p&amp;0'$�W��%��ChT &amp;8�� (�M Ң�n �&amp;uV��ASs6���x�W�ט��t �+N3  ��l �+&gt;g  ��|��4 �bYT�r�&amp;j�z��MPu}�  ��u�[]�b�ؿ�O&lt;a\,��򽨎�U�(? X&lt; H ���oN�@~��� ��5 % �3� .� �p�xC� ��B��,W��
-��U= ��ɬ��G� � L�l�)��X���䩱!�z� �l-��}���  $A��C- !U���s�;�� � �&amp;���2���1��y%i�Xo)�jp; �   6&gt; �:o  A ����#���%�U��
-����i ֺ �� ��.Z�         ���
-endstream
-endobj
-
-2 0 obj&lt;&lt;/Font &lt;&lt;/fn1 3 0 R/fn2 4 0 R/fn3 5 0 R&gt;&gt;&gt;&gt;
-endobj
-
-6 0 obj&lt;&lt;/Type/Annot/Rect[213.585 0 293.603 14]/Border[0 0 0]/Subtype/Link/A&lt;&lt;/S/URI/URI(http://pdfcrowd.com/html-to-pdf-api/?ref=pdf)&gt;&gt;&gt;&gt;
-endobj
-
-7 0 obj&lt;&lt;/Type/Annot/Rect[0 0 76.016 14]/Border[0 0 0]/Subtype/Link/A&lt;&lt;/S/URI/URI(http://pdfcrowd.com/customize/)&gt;&gt;&gt;&gt;
-endobj
-
-8 0 obj&lt;&lt;/Type/Annot/Rect[759.712 0 842.4 14]/Border[0 0 0]/Subtype/Link/A&lt;&lt;/S/URI/URI(http://pdfcrowd.com)&gt;&gt;&gt;&gt;
-endobj
-
-9 0 obj&lt;&lt;/Type/Page/Parent 10 0 R/MediaBox[0 0 842.4 597.6]/Contents 1 0 R/Resources 2 0 R/Annots[6 0 R 7 0 R 8 0 R]&gt;&gt;
-endobj
-
-10 0 obj&lt;&lt;/Type/Pages/Count 1/Kids[9 0 R]&gt;&gt;
-endobj
-
-11 0 obj&lt;&lt;/DisplayDocTitle true &gt;&gt;
-endobj
-
-12 0 obj&lt;&lt;/Type/Catalog/Pages 10 0 R/ViewerPreferences 11 0 R&gt;&gt;
-endobj
-
-3 0 obj&lt;&lt;/Type/Font/Subtype/Type1/BaseFont/Helvetica&gt;&gt;
-endobj
-
-13 0 obj&lt;&lt;/Type/Font/BaseFont/MUBOCY+Arimo-Bold/FontDescriptor 14 0 R/CIDSystemInfo&lt;&lt;/Registry(Adobe)/Ordering(Identity)/Supplement 0&gt;&gt;/Subtype/CIDFontType2/DW 750/W[3[278]48[833]54[667]74[611]76[278]81[611]85[389]87[333]92[556]]&gt;&gt;
-endobj
-
-15 0 obj&lt;&lt;/Length 259/Filter/FlateDecode&gt;&gt;stream
-x�]��n�   �O�q�� �֘ �f{�ۦ� �0Z�
- ��� �ݶ�E� �'3 �tϝV��WgD ��JK �Y� 2��t�fD*��_1s�� ������$MC�����vx�f�#}q ��ӡ����ۑ���_0  ֶD� �r{�3� ;=�O ����}�@�� [ F�b� �� I� �[ ~�h ���y��a �����X�+gQ�D��&lt;��Q�
-%PuT�� UFU �B (�Uu�������� �X� �Ǎ�������G���oq���
-endstream
-endobj
-
-4 0 obj&lt;&lt;/Type/Font/Subtype/Type0/BaseFont/MUBOCY+Arimo-Bold/Encoding/Identity-H/DescendantFonts[13 0 R]/ToUnicode 15 0 R&gt;&gt;
-endobj
-
-16 0 obj&lt;&lt;/Type/Font/BaseFont/BIKRQB+Arimo/FontDescriptor 17 0 R/CIDSystemInfo&lt;&lt;/Registry(Adobe)/Ordering(Identity)/Supplement 0&gt;&gt;/Subtype/CIDFontType2/DW 750/W[3[278]68[556 556]80[833]]&gt;&gt;
-endobj
-
-18 0 obj&lt;&lt;/Length 239/Filter/FlateDecode&gt;&gt;stream
-x�]��n�0 �w?��d�l(鄐�tah �� �}PKŶ 3��1 H�.w:}����s�V; ����
-D�Yg F?� �Bo �rn��kEQ *0��f # ��&lt;+KqK� qޝ�oa/.h ��w�  m����B��!�\V 7Х&gt;�*|�  a��|�:7���9 ϩ� �ho` J *� +��/ O�(+ ���W���� {q��� ���f��
-�4�S�� ��
-�k �|f;��        1 C�+����燃  u �B�
-endstream
-endobj
-
-5 0 obj&lt;&lt;/Type/Font/Subtype/Type0/BaseFont/BIKRQB+Arimo/Encoding/Identity-H/DescendantFonts[16 0 R]/ToUnicode 18 0 R&gt;&gt;
-endobj
-
-19 0 obj&lt;&lt;/Length 4215/Filter/FlateDecode/Length1 7200&gt;&gt;stream
-x��X{t U��nUuw�� ����]M�@�y@ � �&quot;I7�FM:!؝ �&amp;�  ��[䡛�̀
- t��� � f  � T� #�� G���]��qAԳg�:qgV�: �~�V% DϞ=���έ���{��U�   i0 &quot;���M �S� ���S^ �  L� ��� ���+ ��x D��8+z�n���4 @�o ����] .|r e� ��nl)-����� `��|�scL^�-� ��  غ#=�ۂ/' $�؋�
-]��E�� �?���E��{�w�� �O��m����  � �Gm$ �%f�&gt;� b� ��K�a � &amp; � �H����,H�e|&quot; U�5 vX } �$`�w�7����)���+?NY��dC�
-+�� &quot; �
-ka�A H�� -@  5h c 5h        e�ŠM� � ڌ�_ � � ɠ�`&amp; �� S�� :E !� t*̗� t �+�c���4ˠ30J�^��'  � � �N� }��!]�� �)�0�=�o  �        ������� ] �lB �u �N���fn��ۗa&amp;��x/��0 � KQ*����/C
-� �� � �u�W�%�N?��Q� �C� bKx�]( �� �,�N� ���M ���(n&amp;+�=�W�G��¬�s�k  C��b � d.� �8��GˬŸ�J}&lt;�N��j��՘� . �k�D�l ����k���l���8[G9or~�#/����פ �zl�x��gG6t��f��C|�  �)22���(�&gt;��A4ʵ�����t�  �x/�5� �ȍq�N���g��_����u�� ��~�� �wM������6�A�h �0�=��및�S�ū�� ����� �G����E��X���1 �x�BFV,� G���w���.���`G�yS�z�b����X��N���G �Xx��Lj��I�x-��5 ��ͻH�^�[+���v��� �a Q ?�&gt;�  F������1�= �V傼�aC/�Oẗ��w��O�����w���i�� #���� �+�+8�Tl��� c���l �b�[�t*�w� ��^6r{lw=F�� ,��r�g� |*�ғd �
-�LϘ������?B���d R͒��t �D lJ������,i�  ��_M�t�K�-��H ȁ ���w��!�  �[���A\e�f~�nH   �         � �t�z �� ��
-/� 8�o��c �-^�]��
- �qj?�� ���-����4l�N��� �9���� ���)�&lt;
-�ºO#��u���=�qsS�#� &lt; �Q�        8�����d��'xBh�u���C�0&lt;�9  }0�� 8D�a%��X�} ��h ��/��:x
-2=��3���W ��hg ���I ��7�&amp;:1� �%�=4δԉ��� �ʏq�8v�� $�MK�-.Q����}��Z��M�w�ug����-��kk���U��X�pA���+�͙]ZR\4sFA�te�˙�e�Y3�SS��,f�$
- �d� ܚ�/�=Aŭ 늋dwnomq�[� 49(kx�
-��: )AM �Z ނ�����d�
-��.�NH ��  1 ���]�ȣ���Czw�◵/8} �� �Hǅ˅ &lt;* ���&lt; {�� �H�SSj�����&quot; NIE2 )m�  &amp;3  N 3� � HJgn1Sw0�5y}�Z���/.��2�Z΂ nR3�h nR�c��Ny��l|ר
-V hZH         ��ib u�; ߮٩V��j�[&gt;��̻�&quot;�֭Qf��y�O�5�D3�� 9� `:� �_� 
-Ĝo�
- �        5 i���px���G�=�@&lt;8� \��6%&gt;�� ������C ��Wv:4�.�f �� ~#uOs�v��ݧ        � �7� �U)�� �}B��؀e��`�].V���*�6���k�N�  ���5!�8g�9٭�38ΙP (��
--��&amp;�ׇ 7V|gP \�ݵ�m�b�2�v��x�]�,�sY �� �ɚ� ��Z� �o�J��  _�/ ���)W*h��q+��7 
-�X�:�7�2���&quot;� � s �.E�` 7���o�V�D�,�zbwYX�  W1Դ� 
-% ZZ���+�  ��!0[��w
-�  ��ʎ ��%�_˄sj��
-�q_�[s  !&lt;wݲ���T?�_�u�Y�a�
-/:xs�y�,�5�(
-�6�|# ���I�� �(&gt;�n  PK�O�}�C���
- ك�R� ��%?        �
- �QָՋd q��4�� ��ZC���3jb�TS7n�̖h������Q\$ [6 �F +j�8  S�H����� �e.kz٧t)~�W��&amp; ˍ��W�( ���Wˮ[M* �        \� _�bj �\\m)_O,�n`׏��x��� g� � `�� � V�� �Y� ���^نG� ������ܻ� Q�Cq�ŷ�K���A� �+  Hò��&quot;|�U +d�wX%;Z�|�l��a�2߈@��@�x:�|�d �� C � 2[0K͸H��S*� �J ���Q  K � t�
-:f�  pG*�n� �t�:.-!��c� �c X�� ���&amp;�iB�� &amp;  A� ���L�D I'�a�j��(  NV �� J�z�;Z��nm�H T�WtT� �Kn/n6�V�r�5� ��x��  ���� ш� �IY���Ӵ ��ZKU� ^��* 73܂-Jr �?��^#���sᑔ����&gt;e;�Ǉ
-�� �o� ���� DR #g���W \!)���|�|�4��'�L�xf9��Pg����` k �   ;&gt;fJ���ۜ _�8���zɓ�������  �.����
-�EO���;.��� b� &quot;��AL8��9� �E}3��y��ș����5 8�����)�4     G g��hf��y��d���Ɂ� N ?i�}�DF �h#�u��y�h/ �K$�z����        qPۣ        �vV;���ǫ�  �מ �&gt;�y��X�1��s����G��#CG��#�#� I ���?�ٴ����W��}�&lt;�{ouZ�:� � ڛ�k�����0�8� 
-         {��١�CB㮎]�]�&lt;        � �m��qƢU�(&amp; ^�ȹ�3�9����&lt;��R.��1� �:p���lo�s������V �F* [�&quot;��Ub�   DӘ7�����7ߣz�gz�m&quot;� �Y����&lt;�! &lt;c a�Crʲ[���j+�����V ��VY;� V�j-�6Z��!� k�j�Bl�*��4  �!&amp;2J� /k��aԒ�w���]#;�� vU�m�y� �m�aB ��p�n��k��Z|Z �ߠ��P 1��-o8 ���X4v e�� �(�F E؊�&lt;N  E6�� .b�A�Fc$ �_�1ģd%�Q���x��
-�(��        �� -�%�ێFQ!� ��+���Ͳ���P����_�eK����� /�:�����w�!�=�ϥ�t7(0  V�ʅ� Kv��D ��S��9r ��=e�-b ���۔��\�?/G ����X�ӫ2�5#�!��  v{j��n��M~ȁ*
-�U� 幥 +W��gV�R{&amp;T&quot;H���Zi/ �̙m�V0on��ϛ[�L3[fd��r��Y9�e�g��i 3 �yFYEży� !;+����&gt;��ϑM�ץ���l{�Y ��j����f�ɶ�g��0���#�ؾ�/����64������WK�����/�@������%av�� �5ن5��_��bU�Պ�L  鹐 ���' ���?�/T�w� �/� ٢�.dg;��ٶtH� \M~�Ƚ���[I0� +ֳ
- �b���b e�-J�&lt;Ĳ,�  �e�&quot;O&gt;�e]!�]ݰ����Bx���$��b�ۯ�ٴ���;�ޱY�v�M�s ����U� _o��ϯ^����/�w��&amp;÷        �Y��- 6���B�9��3���d:�2%o� �S�4%OS���&gt;��
-�Գ \H�o(��� (9GəkB E
-i%  �$S��g�2 ���iz��AMȾ뚄n�� &amp; =H        zh��t
-���H��gT8N_� � �u�TJ�Ip3 (A#Ǚ��T `���B#% )�� ' �g��� ����  �w�X��
-��V��&gt;GOS)�-�V��, �{!� A ��e�4��8�b%!����B 1��d
-���S ��P2�+Y)�&lt;��e* �$�T��D� �CL��[����S&quot; � z��� z�MI)%��H ��7���r퐝-��K���! ������ 0�r+Vt��[��  ���        �Ft �Fv�u�q���z�� Ϭ�m���lW�sg��&amp;�ʻ&lt;ǸqX狰&lt; ��        �Q&quot;���`�ڭCS�� � zrdyd�#� ?٤ ��[l93�TT� m[��?0r�J)� �ٕ������A�p^��O� �m�)TN�S��p� �d�9�&lt;�7-�:� z��0�3M� �t B(;��v��f�(߄�Y�=8��Y�� g/�&gt;�~� C~ mt1;� �eIN� ��p 6� �8 3Z�  �+���Q��9 E�(�e� ��]�[�z%H� �d�nH�{        �bė��'�|m�k�&quot;E  a.��&amp;�} �`��l�2y � y  %�'�A~ �8���ߤ n�
-endstream
-endobj
-
-17 0 obj&lt;&lt;/Type/FontDescriptor/FontName/BIKRQB+Arimo/Flags 32/FontBBox[-544 -303 1302 979]/ItalicAngle 0/Ascent 905/Descent -212/AvgWidth 573/MaxWidth 1338/StemV 87/FontFile2 19 0 R/XHeight 528/CapHeight 688/FontFamily(Arimo)/FontWeight 400/FontStretch/Normal&gt;&gt;
-endobj
-
-20 0 obj&lt;&lt;/Length 5584/Filter/FlateDecode/Length1 9092&gt;&gt;stream
-x��Xit ו���zQK� -OE��Z�$pKH�Y,,�BH���%!        w cI         a  t �� ��
-� N ۓd ��8 �M        / �$�9�
-�'Ό�X�s� H�xf t�}�Zb����?S�ֻ�߻ﾪj     @ }m�M��#�-$9L���[�        ����&gt; �7�vwv}u���I� ��Ukn�9�^ �k p�\׹��� ��l� X{ �K�����  l�ɾc妸��d[ ��_���_����g�ȷ�dO�o���G ~ �� @�S/%�̓� �L�Sz��o�a�e^�| ��������m���� ��� Z` X@  ��u �#�nPH��(�9�� ��ʓ�%�t�vQo� oO��.8}��g�!۴� ���,U  �
-k`f�Gp�� /� ��x .�})^�l�c��@ �H�V�F{����qR���T I�i0        GS�Cڇ�S|:\�&lt;��3�:�� ? n�T��LB        � q�뇹T�R��J� �i '~:�jZ�t�#�*�7@  C
-IW ŉn�n��vA'�;�[I��p���J��`*I��X e0�H��d�G�5�� ��_�;E�&gt;XGy5�/⬥y5� �3_��&amp;} �7�M�yv�9� ˖
-�X*�Fh� LgmK.鿚|4�����s��q �H�&gt;�hM� �&amp;�n�q��n��* -.���[-��  ^Es~ l  bd���cu�;sq .]�f�g��}���yL��]�f���&gt;v��&quot;��m�@����R�����ב|S
- �)N��G�c� �j Ic�+&amp;�n���  ��&quot;��.�%m\خ$� ��9�wki�f� �]�,��w�C�ޟAg��ד� MH��� ػ�~ ��y:�E���t��_!N        �c�� }�)v�;��q�v�J]�Uq��BR �b����NU�Z�ŗ�hV+~N����M�ngc� h���o���jM*���5�so ߕ �Ef��D��o�o��M&lt;��O �?s�͎�#ߍb��        �f��/�\��o_ʯ�4&lt;��e����V���t�}瞅���0=������q��
-�{*6�cYK  ��� ]lv��sN��N4�&quot;��
-&quot; ��p�r�  �Y��Sj =�e�u�yzK�-?���U�5G� �H �EJ�) ��Q���pS�|���4c~� ��%O[~�h�*�� ��]z7*s-���#X [ �wh� 7��y�2��T� ���~�=q-�]/�* �I�� ů�w��5��s�� ���F | _«� ���p�`߅c�
-&lt;�
-v � �� P�o���qY ���        � �m�!&lt;�7� v�KhgP�LT. k &amp;a��� �p?���%&amp;�����
-�X�M: � �5� ɒ��r ˰���)xD �Q��s#� ?��� �J-O$���&amp;= ��W� &lt;/*�  �c�� ~�;�{JE;���cJ[�|��$��&gt;M� � :���zH��r�$� �h�� ���        vP�'    ���W�Wh���#��em�HkK�Ɔk�^\��Eu õ5 ���UWͫ�rn� sfϚQV:��xjQa��@�ߗ��v93'�;��6�E�%�b���ZC.����@m����X���))�
-�; �S3hP
- uuB �4� �(��� q���e� ��i��[�K��J�&quot;� Gj � �5E� �        D5�s�_-x�PL&amp;���' ����j����� �� � ݎ�b v� �N�15�?�S�B�HSk� �w� ��VZ��e46Ejk�~��x�� � *X B � �M��Vs�M .&gt;8�}� +:� ]����&quot;��I��r���݆;hL � �n�0�V�m  jj� �Z�d&lt;O�ٔhX
-\ m�$�r �v��3%� �N g
-i��K&quot;~~y�T���p@  v v�$ V 4W`p8#c����
-� 
-1�|v�� o� ��^� M-=����jZ 1�����I �W �_����m �I
-T * U���e�6��
-�  M sN�1�}�� ����5 �49�\30� w� ���7G 
-�`QW��*��� XA�u ߘ������  z�ZEiT�j�jQ�jͰ R���\ � �2� �̯��s/%(t{�� ��qj � ��z�(�F�� ��� 1� b��Ԏ� ���Gg m�� ��Fi��� T��.�U��9&quot;\RnF� �~q����Zq�����   � h� �Prtx��}2D? �5�8w uYa�`����ux����h ��У���@�;�ێ*4m�+�#*z�%R� �oj�\� b*x8����0��� C
-h� �ZD��Q2t�@   ����a+� ���B� ��R�� Ƭ        �1M��I���yA-�� ԍE��)�YP��G��UR,�ZK%&amp; ;/jݘ� S��S.� &quot;^�&lt;��Z$� � z5Co����*��!j�ګ��f� �� ~R�Mx1�p�{nq��b&gt;&gt;��@�hL�
-� �̓&lt;x    �&quot; x �W���Y� t�������8Ѓú� s�\ $��k0� � ��&lt;��� �� �X�R]RL���� ��4��=�m� ����i��PZ�Q  �B�� 
-@ R�K��O4&gt;ᑖ��.� t� �U�@�W�  �}L��rD2e.3Q�H��o�#���Ǭ ��Mـ��k x�t�E��iz�4A� # �#ɳ��?
-�� ���a�Z&quot;�#80��{M� ��M����M�� y2 �M�)Q5��]�zi��R�u�F�5�;� �
-rik�   ���)p  �f �@w�� ���*.�2�V.�Q�b.���|�
-��e ? Im�x ] ��C�ؒ�� mT�Rqߋ�� ����Π� ��B�  ��yr�I��'f�JO�:!� ��������:��q�� j��&gt;��{�����&lt;߻�����yr�F�}�����x Ev�]#҉��A�L��N
-�QN����ߕJ�[oN����B_Ǳ��  ��` 3z�2�&lt;��1ur�Ƨ�9&amp;��#��;�  }�s������#�� ���� ��w���
-�k��� ���[��s���'�[FP�'ԑ�� OK��&gt;��Da�̧�3��}���a�ĬB Q � ;莄\է N ����ڻk��܋����0&lt;��������' � �3˷���w �8��Op&amp;&gt;��_��Q|  fA%�0G������  �����D ?�S}� ����@x��y��~��; }߻�зc{����&gt;�oHj � �2� R��, vnG}{�3����*�u���~'ξ=|���@l$� ň���� �~�� ��q��ۏ�~ I��o駢���� ��&amp;b^� �k���V+�N'�v����i����w]�ȷ��&amp;_[x�/���jA�U)�[�dt�Ur��'o�-�ͨ7O- �͗��-+/��i���a���Hm�� E V7H#�ѧ� |�ª�.��-���W�J���9�nt��ʝ��E؊��{�7� �^B��Y�lwnq*Ng�������|יtڪHv�)� 6  � Gp�pKs0X?bK�ǆ�q���  ���7� �{ hm[  F�7z�� TO�7ʛ#F��h��E�Ι b\��s�: ��� �慱8 � ��X�k���c&amp;B ���q0]b�  cA3H ��X�;��y��?�w���&quot; 7�ŹM�s�d �&lt;��(C,O� ���� �� Ǟ� _��� �˱k9�i��d ���K�0�� V?�.d�2=i�ee��  ��iV ׵1U?�� *�6 ��x�Z�ިʥ*zU&lt;��q  S ��. ���V��r 7B2HW�OU|W� �ϑ��C�z����.�J��s�;�}�*ݡ�*�s+�) 8U�RE � ���K}*���PT|�LA6O�D�� � )^Մ�M�IN�v3�� 3 bZR��� �0]?�⪤� rT���*�ϳ&quot;�Q1H�6Ų �;*��!�M`�R5+��qJ���� R?U% Z\�l� AH��Y�r��[�y�*U UO� �߭b�ڠnQeP5U��.� zäY3'\� �e�z�l�T �� ��i  T��W�**�!,�~y ۯ_� ��ί���כ� �^ ǧc��k�Ų�g���BJ &amp;�^ ��� �Ќ2�{��9�? ˹9n�۟�� ��-^L[��x3qcF�k�v:��
-e�*/�&lt;������� � 7���� �m�?[����_o1����g �� � ���I���r���&amp;�N� +d��A�n���9�&gt;k����g���֌|YU����ɪ&quot;;ڣ.�f+��e6�&amp;�lr T�J�� B �A� **0����Q���������`pF f+~mJQAnnH�5���h�2k� ��0Kaa@����e�� k�H���_ ��q��G�� ޶�'�v��Ї ���0�~���M|Y��ء�=��7�9������+��YPP2oi���C �P��G�g   u���/AK� �Mi ? a���9�}��6� s}���u�  JP�e%�&amp;� O�¶���         &lt;�!{�Μ��(�q9�5D3�9`k�.Uz�M����+�E�Q$ ��N��� �7� Y tc(�Tl��
- �$�Ә_(�R&gt;{֬9 k _r�&lt;�r � �[s�ي&lt;�0��v�����_'��\ٸq�$-O�p���?[fI��Ú�ڹy�{��oN\��v��o����p �1
-�� n�Zs���&gt;�L��ϟK&lt;��� �� j�G-��g�6� �A�mR� OX�݊�4]K+K;�v4MI��h ���J��dzZc��-N% �9J �*��*4�������^��8�,k�? ����!�        �ʙ7�8%+sO�����G�}Ƀ��r��rX� � y�&lt;)o��hL&lt;8Q�)��  �Dd��f��� se;�$����g��]��rc4ە�C �GUU�
-!��`��,:�( �y��as ����,,����f� �ӹ� ���;�O,2��C����_�H�8y��3��u�� g��wk�[��4�� ��\�: NB H˨s:����IF :��v���= r        = zH���${��i��'�,N��� �&quot;�n�F3�B�X���[r
-�
-v��N�#ճ�53Wo�+���{�_�ay��S瞟������/��,WP� u=#Ù��rV�#S� ��,
-r;}�Ȳ^X\�[Ɛ�Sd �%Ki�&lt;�z�!���V'� ���*� � �
-m�@p}($Z\ B�3�,���܁Y�9��PN��M=?'Ǌ �z�� #Ƒ#�U�y����J�}1�x���
-��O�g�+q�ҫ̅ � ='+-3�#I �����=wx ��� �  ��a�g 3�i�
-� `�0�N�=l ��eX˰��f���0�+�o�O�� � ��1i ��I�  �YL��\&amp;����F �ɔ� Z � ��(�&gt;b'��*��3|��Fv'��� &amp;�a S�&gt;f_Q@�6� ��P ���b�l�� �� OF���l?��b���RR��%��VG�?b(2�, `�J c 42,g�L�fSD��1&lt;�F��k� ��x)�v�q�  �� &amp;��@ C��/ ���g�S�e&amp;��� �~&amp;��հ &amp;�r �V� �-  
-��c?e� ��� /2��~�$��v 3�,�i��I
-˦�P�C A� � �/�� {� br� ��� ��P e'� &amp;��g.rod�l�Ymr���slq�p( ő���v8�� � b�)C!��5����/��K���o� ��I�7xɗ����_�� [�Op�SQ�6��_4�?�g�+=+�͙��G� �݋g W6T %Zpڞ������0Ѳ�@��        �� FV+�        ����?�䩡��/�����F.M�ߙ��&amp;Y /&amp;z�O/�d�_L��V�# yE�����Cp� � ��6 B�נ
-?����!���`U~        K�~ � �X �d�Dt �B�R&quot; Q Q=Q�h&gt;ב�+D��1�Z�� \o;  ) Ϸ��E�Ka+�Z+�9����r^�� [S��� �W�� �m�3mC ��!
-�| �Q�  U�_�Ē� _M�+I���Hc  I  � ��|���$ &lt;��na����c�&lt;Y�׉� � ��֊��4f �� B�&quot;�
-endstream
-endobj
-
-14 0 obj&lt;&lt;/Type/FontDescriptor/FontName/MUBOCY+Arimo-Bold/Flags 262176/FontBBox[-482 -376 1304 1033]/ItalicAngle 0/Ascent 905/Descent -212/AvgWidth 601/MaxWidth 1333/StemV 165/FontFile2 20 0 R/XHeight 528/CapHeight 688/FontFamily(Arimo)/FontWeight 700/FontStretch/Normal&gt;&gt;
-endobj
-
-21 0 obj&lt;&lt;/CreationDate (D:20150919123208)/Creator (Pdfcrowd - online HTML to PDF API - http://pdfcrowd.com)/Producer (JagPDF 1.5.0, http://jagpdf.org            )&gt;&gt;
-endobj
-
-xref
-0 22
-0000000000 65535 f
-0000000015 00000 n
-0000000487 00000 n
-0000001234 00000 n
-0000001864 00000 n
-0000002500 00000 n
-0000000547 00000 n
-0000000694 00000 n
-0000000820 00000 n
-0000000940 00000 n
-0000001067 00000 n
-0000001119 00000 n
-0000001162 00000 n
-0000001297 00000 n
-0000012860 00000 n
-0000001537 00000 n
-0000001996 00000 n
-0000006924 00000 n
-0000002193 00000 n
-0000002627 00000 n
-0000007194 00000 n
-0000013141 00000 n
-trailer
-&lt;&lt;/Size 22/Root 12 0 R/Info 21 0 R/ID[&lt;3bd557539948ba1c9a36f467d5809408&gt; &lt;3bd557539948ba1c9a36f467d5809408&gt;]&gt;&gt;
-startxref
-13315
-%%EOF
-
---6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+Content-Type: multipart/form-data
+Accept: application/json</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Parameters</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">userId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier of the curriculum</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the curriculum file</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Response</p>
 </div>
@@ -853,16 +669,42 @@ startxref
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 74
+Content-Length: 63
 
-{
-  &quot;resultCode&quot; : &quot;SUCCESS&quot;,
-  &quot;message&quot; : &quot;File uploaded successfully&quot;
-}</code></pre>
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;File uploaded successfully&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>=== Download Resume</p>
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Download Resume</strong></p>
 </div>
 <div class="paragraph">
 <p>Request</p>
@@ -875,209 +717,38 @@ Host: localhost</code></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
 <p>Response</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/octet-stream
-Content-Disposition: inline; filename=&quot;line_with_bold.pdf&quot;
-Content-Length: 13906
-
-%PDF-1.5
-%����
-1 0 obj&lt;&lt;/Length 405/Filter/FlateDecode&gt;&gt;stream
-x��Q�N�0 ��9� ��CBE��) m�� q@i*@��� ����&gt;�� Y���ݙٱ �u �c�c � ��b�� ��.zw�(�� ��͞�p&amp;0'$�W��%��ChT &amp;8�� (�M Ң�n �&amp;uV��ASs6���x�W�ט��t �+N3  ��l �+&gt;g  ��|��4 �bYT�r�&amp;j�z��MPu}�  ��u�[]�b�ؿ�O&lt;a\,��򽨎�U�(? X&lt; H ���oN�@~��� ��5 % �3� .� �p�xC� ��B��,W��
-��U= ��ɬ��G� � L�l�)��X���䩱!�z� �l-��}���  $A��C- !U���s�;�� � �&amp;���2���1��y%i�Xo)�jp; �   6&gt; �:o  A ����#���%�U��
-����i ֺ �� ��.Z�         ���
-endstream
-endobj
-
-2 0 obj&lt;&lt;/Font &lt;&lt;/fn1 3 0 R/fn2 4 0 R/fn3 5 0 R&gt;&gt;&gt;&gt;
-endobj
-
-6 0 obj&lt;&lt;/Type/Annot/Rect[213.585 0 293.603 14]/Border[0 0 0]/Subtype/Link/A&lt;&lt;/S/URI/URI(http://pdfcrowd.com/html-to-pdf-api/?ref=pdf)&gt;&gt;&gt;&gt;
-endobj
-
-7 0 obj&lt;&lt;/Type/Annot/Rect[0 0 76.016 14]/Border[0 0 0]/Subtype/Link/A&lt;&lt;/S/URI/URI(http://pdfcrowd.com/customize/)&gt;&gt;&gt;&gt;
-endobj
-
-8 0 obj&lt;&lt;/Type/Annot/Rect[759.712 0 842.4 14]/Border[0 0 0]/Subtype/Link/A&lt;&lt;/S/URI/URI(http://pdfcrowd.com)&gt;&gt;&gt;&gt;
-endobj
-
-9 0 obj&lt;&lt;/Type/Page/Parent 10 0 R/MediaBox[0 0 842.4 597.6]/Contents 1 0 R/Resources 2 0 R/Annots[6 0 R 7 0 R 8 0 R]&gt;&gt;
-endobj
-
-10 0 obj&lt;&lt;/Type/Pages/Count 1/Kids[9 0 R]&gt;&gt;
-endobj
-
-11 0 obj&lt;&lt;/DisplayDocTitle true &gt;&gt;
-endobj
-
-12 0 obj&lt;&lt;/Type/Catalog/Pages 10 0 R/ViewerPreferences 11 0 R&gt;&gt;
-endobj
-
-3 0 obj&lt;&lt;/Type/Font/Subtype/Type1/BaseFont/Helvetica&gt;&gt;
-endobj
-
-13 0 obj&lt;&lt;/Type/Font/BaseFont/MUBOCY+Arimo-Bold/FontDescriptor 14 0 R/CIDSystemInfo&lt;&lt;/Registry(Adobe)/Ordering(Identity)/Supplement 0&gt;&gt;/Subtype/CIDFontType2/DW 750/W[3[278]48[833]54[667]74[611]76[278]81[611]85[389]87[333]92[556]]&gt;&gt;
-endobj
-
-15 0 obj&lt;&lt;/Length 259/Filter/FlateDecode&gt;&gt;stream
-x�]��n�   �O�q�� �֘ �f{�ۦ� �0Z�
- ��� �ݶ�E� �'3 �tϝV��WgD ��JK �Y� 2��t�fD*��_1s�� ������$MC�����vx�f�#}q ��ӡ����ۑ���_0  ֶD� �r{�3� ;=�O ����}�@�� [ F�b� �� I� �[ ~�h ���y��a �����X�+gQ�D��&lt;��Q�
-%PuT�� UFU �B (�Uu�������� �X� �Ǎ�������G���oq���
-endstream
-endobj
-
-4 0 obj&lt;&lt;/Type/Font/Subtype/Type0/BaseFont/MUBOCY+Arimo-Bold/Encoding/Identity-H/DescendantFonts[13 0 R]/ToUnicode 15 0 R&gt;&gt;
-endobj
-
-16 0 obj&lt;&lt;/Type/Font/BaseFont/BIKRQB+Arimo/FontDescriptor 17 0 R/CIDSystemInfo&lt;&lt;/Registry(Adobe)/Ordering(Identity)/Supplement 0&gt;&gt;/Subtype/CIDFontType2/DW 750/W[3[278]68[556 556]80[833]]&gt;&gt;
-endobj
-
-18 0 obj&lt;&lt;/Length 239/Filter/FlateDecode&gt;&gt;stream
-x�]��n�0 �w?��d�l(鄐�tah �� �}PKŶ 3��1 H�.w:}����s�V; ����
-D�Yg F?� �Bo �rn��kEQ *0��f # ��&lt;+KqK� qޝ�oa/.h ��w�  m����B��!�\V 7Х&gt;�*|�  a��|�:7���9 ϩ� �ho` J *� +��/ O�(+ ���W���� {q��� ���f��
-�4�S�� ��
-�k �|f;��        1 C�+����燃  u �B�
-endstream
-endobj
-
-5 0 obj&lt;&lt;/Type/Font/Subtype/Type0/BaseFont/BIKRQB+Arimo/Encoding/Identity-H/DescendantFonts[16 0 R]/ToUnicode 18 0 R&gt;&gt;
-endobj
-
-19 0 obj&lt;&lt;/Length 4215/Filter/FlateDecode/Length1 7200&gt;&gt;stream
-x��X{t U��nUuw�� ����]M�@�y@ � �&quot;I7�FM:!؝ �&amp;�  ��[䡛�̀
- t��� � f  � T� #�� G���]��qAԳg�:qgV�: �~�V% DϞ=���έ���{��U�   i0 &quot;���M �S� ���S^ �  L� ��� ���+ ��x D��8+z�n���4 @�o ����] .|r e� ��nl)-����� `��|�scL^�-� ��  غ#=�ۂ/' $�؋�
-]��E�� �?���E��{�w�� �O��m����  � �Gm$ �%f�&gt;� b� ��K�a � &amp; � �H����,H�e|&quot; U�5 vX } �$`�w�7����)���+?NY��dC�
-+�� &quot; �
-ka�A H�� -@  5h c 5h        e�ŠM� � ڌ�_ � � ɠ�`&amp; �� S�� :E !� t*̗� t �+�c���4ˠ30J�^��'  � � �N� }��!]�� �)�0�=�o  �        ������� ] �lB �u �N���fn��ۗa&amp;��x/��0 � KQ*����/C
-� �� � �u�W�%�N?��Q� �C� bKx�]( �� �,�N� ���M ���(n&amp;+�=�W�G��¬�s�k  C��b � d.� �8��GˬŸ�J}&lt;�N��j��՘� . �k�D�l ����k���l���8[G9or~�#/����פ �zl�x��gG6t��f��C|�  �)22���(�&gt;��A4ʵ�����t�  �x/�5� �ȍq�N���g��_����u�� ��~�� �wM������6�A�h �0�=��및�S�ū�� ����� �G����E��X���1 �x�BFV,� G���w���.���`G�yS�z�b����X��N���G �Xx��Lj��I�x-��5 ��ͻH�^�[+���v��� �a Q ?�&gt;�  F������1�= �V傼�aC/�Oẗ��w��O�����w���i�� #���� �+�+8�Tl��� c���l �b�[�t*�w� ��^6r{lw=F�� ,��r�g� |*�ғd �
-�LϘ������?B���d R͒��t �D lJ������,i�  ��_M�t�K�-��H ȁ ���w��!�  �[���A\e�f~�nH   �         � �t�z �� ��
-/� 8�o��c �-^�]��
- �qj?�� ���-����4l�N��� �9���� ���)�&lt;
-�ºO#��u���=�qsS�#� &lt; �Q�        8�����d��'xBh�u���C�0&lt;�9  }0�� 8D�a%��X�} ��h ��/��:x
-2=��3���W ��hg ���I ��7�&amp;:1� �%�=4δԉ��� �ʏq�8v�� $�MK�-.Q����}��Z��M�w�ug����-��kk���U��X�pA���+�͙]ZR\4sFA�te�˙�e�Y3�SS��,f�$
- �d� ܚ�/�=Aŭ 늋dwnomq�[� 49(kx�
-��: )AM �Z ނ�����d�
-��.�NH ��  1 ���]�ȣ���Czw�◵/8} �� �Hǅ˅ &lt;* ���&lt; {�� �H�SSj�����&quot; NIE2 )m�  &amp;3  N 3� � HJgn1Sw0�5y}�Z���/.��2�Z΂ nR3�h nR�c��Ny��l|ר
-V hZH         ��ib u�; ߮٩V��j�[&gt;��̻�&quot;�֭Qf��y�O�5�D3�� 9� `:� �_� 
-Ĝo�
- �        5 i���px���G�=�@&lt;8� \��6%&gt;�� ������C ��Wv:4�.�f �� ~#uOs�v��ݧ        � �7� �U)�� �}B��؀e��`�].V���*�6���k�N�  ���5!�8g�9٭�38ΙP (��
--��&amp;�ׇ 7V|gP \�ݵ�m�b�2�v��x�]�,�sY �� �ɚ� ��Z� �o�J��  _�/ ���)W*h��q+��7 
-�X�:�7�2���&quot;� � s �.E�` 7���o�V�D�,�zbwYX�  W1Դ� 
-% ZZ���+�  ��!0[��w
-�  ��ʎ ��%�_˄sj��
-�q_�[s  !&lt;wݲ���T?�_�u�Y�a�
-/:xs�y�,�5�(
-�6�|# ���I�� �(&gt;�n  PK�O�}�C���
- ك�R� ��%?        �
- �QָՋd q��4�� ��ZC���3jb�TS7n�̖h������Q\$ [6 �F +j�8  S�H����� �e.kz٧t)~�W��&amp; ˍ��W�( ���Wˮ[M* �        \� _�bj �\\m)_O,�n`׏��x��� g� � `�� � V�� �Y� ���^نG� ������ܻ� Q�Cq�ŷ�K���A� �+  Hò��&quot;|�U +d�wX%;Z�|�l��a�2߈@��@�x:�|�d �� C � 2[0K͸H��S*� �J ���Q  K � t�
-:f�  pG*�n� �t�:.-!��c� �c X�� ���&amp;�iB�� &amp;  A� ���L�D I'�a�j��(  NV �� J�z�;Z��nm�H T�WtT� �Kn/n6�V�r�5� ��x��  ���� ш� �IY���Ӵ ��ZKU� ^��* 73܂-Jr �?��^#���sᑔ����&gt;e;�Ǉ
-�� �o� ���� DR #g���W \!)���|�|�4��'�L�xf9��Pg����` k �   ;&gt;fJ���ۜ _�8���zɓ�������  �.����
-�EO���;.��� b� &quot;��AL8��9� �E}3��y��ș����5 8�����)�4     G g��hf��y��d���Ɂ� N ?i�}�DF �h#�u��y�h/ �K$�z����        qPۣ        �vV;���ǫ�  �מ �&gt;�y��X�1��s����G��#CG��#�#� I ���?�ٴ����W��}�&lt;�{ouZ�:� � ڛ�k�����0�8� 
-         {��١�CB㮎]�]�&lt;        � �m��qƢU�(&amp; ^�ȹ�3�9����&lt;��R.��1� �:p���lo�s������V �F* [�&quot;��Ub�   DӘ7�����7ߣz�gz�m&quot;� �Y����&lt;�! &lt;c a�Crʲ[���j+�����V ��VY;� V�j-�6Z��!� k�j�Bl�*��4  �!&amp;2J� /k��aԒ�w���]#;�� vU�m�y� �m�aB ��p�n��k��Z|Z �ߠ��P 1��-o8 ���X4v e�� �(�F E؊�&lt;N  E6�� .b�A�Fc$ �_�1ģd%�Q���x��
-�(��        �� -�%�ێFQ!� ��+���Ͳ���P����_�eK����� /�:�����w�!�=�ϥ�t7(0  V�ʅ� Kv��D ��S��9r ��=e�-b ���۔��\�?/G ����X�ӫ2�5#�!��  v{j��n��M~ȁ*
-�U� 幥 +W��gV�R{&amp;T&quot;H���Zi/ �̙m�V0on��ϛ[�L3[fd��r��Y9�e�g��i 3 �yFYEży� !;+����&gt;��ϑM�ץ���l{�Y ��j����f�ɶ�g��0���#�ؾ�/����64������WK�����/�@������%av�� �5ن5��_��bU�Պ�L  鹐 ���' ���?�/T�w� �/� ٢�.dg;��ٶtH� \M~�Ƚ���[I0� +ֳ
- �b���b e�-J�&lt;Ĳ,�  �e�&quot;O&gt;�e]!�]ݰ����Bx���$��b�ۯ�ٴ���;�ޱY�v�M�s ����U� _o��ϯ^����/�w��&amp;÷        �Y��- 6���B�9��3���d:�2%o� �S�4%OS���&gt;��
-�Գ \H�o(��� (9GəkB E
-i%  �$S��g�2 ���iz��AMȾ뚄n�� &amp; =H        zh��t
-���H��gT8N_� � �u�TJ�Ip3 (A#Ǚ��T `���B#% )�� ' �g��� ����  �w�X��
-��V��&gt;GOS)�-�V��, �{!� A ��e�4��8�b%!����B 1��d
-���S ��P2�+Y)�&lt;��e* �$�T��D� �CL��[����S&quot; � z��� z�MI)%��H ��7���r퐝-��K���! ������ 0�r+Vt��[��  ���        �Ft �Fv�u�q���z�� Ϭ�m���lW�sg��&amp;�ʻ&lt;ǸqX狰&lt; ��        �Q&quot;���`�ڭCS�� � zrdyd�#� ?٤ ��[l93�TT� m[��?0r�J)� �ٕ������A�p^��O� �m�)TN�S��p� �d�9�&lt;�7-�:� z��0�3M� �t B(;��v��f�(߄�Y�=8��Y�� g/�&gt;�~� C~ mt1;� �eIN� ��p 6� �8 3Z�  �+���Q��9 E�(�e� ��]�[�z%H� �d�nH�{        �bė��'�|m�k�&quot;E  a.��&amp;�} �`��l�2y � y  %�'�A~ �8���ߤ n�
-endstream
-endobj
-
-17 0 obj&lt;&lt;/Type/FontDescriptor/FontName/BIKRQB+Arimo/Flags 32/FontBBox[-544 -303 1302 979]/ItalicAngle 0/Ascent 905/Descent -212/AvgWidth 573/MaxWidth 1338/StemV 87/FontFile2 19 0 R/XHeight 528/CapHeight 688/FontFamily(Arimo)/FontWeight 400/FontStretch/Normal&gt;&gt;
-endobj
-
-20 0 obj&lt;&lt;/Length 5584/Filter/FlateDecode/Length1 9092&gt;&gt;stream
-x��Xit ו���zQK� -OE��Z�$pKH�Y,,�BH���%!        w cI         a  t �� ��
-� N ۓd ��8 �M        / �$�9�
-�'Ό�X�s� H�xf t�}�Zb����?S�ֻ�߻ﾪj     @ }m�M��#�-$9L���[�        ����&gt; �7�vwv}u���I� ��Ukn�9�^ �k p�\׹��� ��l� X{ �K�����  l�ɾc妸��d[ ��_���_����g�ȷ�dO�o���G ~ �� @�S/%�̓� �L�Sz��o�a�e^�| ��������m���� ��� Z` X@  ��u �#�nPH��(�9�� ��ʓ�%�t�vQo� oO��.8}��g�!۴� ���,U  �
-k`f�Gp�� /� ��x .�})^�l�c��@ �H�V�F{����qR���T I�i0        GS�Cڇ�S|:\�&lt;��3�:�� ? n�T��LB        � q�뇹T�R��J� �i '~:�jZ�t�#�*�7@  C
-IW ŉn�n��vA'�;�[I��p���J��`*I��X e0�H��d�G�5�� ��_�;E�&gt;XGy5�/⬥y5� �3_��&amp;} �7�M�yv�9� ˖
-�X*�Fh� LgmK.鿚|4�����s��q �H�&gt;�hM� �&amp;�n�q��n��* -.���[-��  ^Es~ l  bd���cu�;sq .]�f�g��}���yL��]�f���&gt;v��&quot;��m�@����R�����ב|S
- �)N��G�c� �j Ic�+&amp;�n���  ��&quot;��.�%m\خ$� ��9�wki�f� �]�,��w�C�ޟAg��ד� MH��� ػ�~ ��y:�E���t��_!N        �c�� }�)v�;��q�v�J]�Uq��BR �b����NU�Z�ŗ�hV+~N����M�ngc� h���o���jM*���5�so ߕ �Ef��D��o�o��M&lt;��O �?s�͎�#ߍb��        �f��/�\��o_ʯ�4&lt;��e����V���t�}瞅���0=������q��
-�{*6�cYK  ��� ]lv��sN��N4�&quot;��
-&quot; ��p�r�  �Y��Sj =�e�u�yzK�-?���U�5G� �H �EJ�) ��Q���pS�|���4c~� ��%O[~�h�*�� ��]z7*s-���#X [ �wh� 7��y�2��T� ���~�=q-�]/�* �I�� ů�w��5��s�� ���F | _«� ���p�`߅c�
-&lt;�
-v � �� P�o���qY ���        � �m�!&lt;�7� v�KhgP�LT. k &amp;a��� �p?���%&amp;�����
-�X�M: � �5� ɒ��r ˰���)xD �Q��s#� ?��� �J-O$���&amp;= ��W� &lt;/*�  �c�� ~�;�{JE;���cJ[�|��$��&gt;M� � :���zH��r�$� �h�� ���        vP�'    ���W�Wh���#��em�HkK�Ɔk�^\��Eu õ5 ���UWͫ�rn� sfϚQV:��xjQa��@�ߗ��v93'�;��6�E�%�b���ZC.����@m����X���))�
-�; �S3hP
- uuB �4� �(��� q���e� ��i��[�K��J�&quot;� Gj � �5E� �        D5�s�_-x�PL&amp;���' ����j����� �� � ݎ�b v� �N�15�?�S�B�HSk� �w� ��VZ��e46Ejk�~��x�� � *X B � �M��Vs�M .&gt;8�}� +:� ]����&quot;��I��r���݆;hL � �n�0�V�m  jj� �Z�d&lt;O�ٔhX
-\ m�$�r �v��3%� �N g
-i��K&quot;~~y�T���p@  v v�$ V 4W`p8#c����
-� 
-1�|v�� o� ��^� M-=����jZ 1�����I �W �_����m �I
-T * U���e�6��
-�  M sN�1�}�� ����5 �49�\30� w� ���7G 
-�`QW��*��� XA�u ߘ������  z�ZEiT�j�jQ�jͰ R���\ � �2� �̯��s/%(t{�� ��qj � ��z�(�F�� ��� 1� b��Ԏ� ���Gg m�� ��Fi��� T��.�U��9&quot;\RnF� �~q����Zq�����   � h� �Prtx��}2D? �5�8w uYa�`����ux����h ��У���@�;�ێ*4m�+�#*z�%R� �oj�\� b*x8����0��� C
-h� �ZD��Q2t�@   ����a+� ���B� ��R�� Ƭ        �1M��I���yA-�� ԍE��)�YP��G��UR,�ZK%&amp; ;/jݘ� S��S.� &quot;^�&lt;��Z$� � z5Co����*��!j�ګ��f� �� ~R�Mx1�p�{nq��b&gt;&gt;��@�hL�
-� �̓&lt;x    �&quot; x �W���Y� t�������8Ѓú� s�\ $��k0� � ��&lt;��� �� �X�R]RL���� ��4��=�m� ����i��PZ�Q  �B�� 
-@ R�K��O4&gt;ᑖ��.� t� �U�@�W�  �}L��rD2e.3Q�H��o�#���Ǭ ��Mـ��k x�t�E��iz�4A� # �#ɳ��?
-�� ���a�Z&quot;�#80��{M� ��M����M�� y2 �M�)Q5��]�zi��R�u�F�5�;� �
-rik�   ���)p  �f �@w�� ���*.�2�V.�Q�b.���|�
-��e ? Im�x ] ��C�ؒ�� mT�Rqߋ�� ����Π� ��B�  ��yr�I��'f�JO�:!� ��������:��q�� j��&gt;��{�����&lt;߻�����yr�F�}�����x Ev�]#҉��A�L��N
-�QN����ߕJ�[oN����B_Ǳ��  ��` 3z�2�&lt;��1ur�Ƨ�9&amp;��#��;�  }�s������#�� ���� ��w���
-�k��� ���[��s���'�[FP�'ԑ�� OK��&gt;��Da�̧�3��}���a�ĬB Q � ;莄\է N ����ڻk��܋����0&lt;��������' � �3˷���w �8��Op&amp;&gt;��_��Q|  fA%�0G������  �����D ?�S}� ����@x��y��~��; }߻�зc{����&gt;�oHj � �2� R��, vnG}{�3����*�u���~'ξ=|���@l$� ň���� �~�� ��q��ۏ�~ I��o駢���� ��&amp;b^� �k���V+�N'�v����i����w]�ȷ��&amp;_[x�/���jA�U)�[�dt�Ur��'o�-�ͨ7O- �͗��-+/��i���a���Hm�� E V7H#�ѧ� |�ª�.��-���W�J���9�nt��ʝ��E؊��{�7� �^B��Y�lwnq*Ng�������|יtڪHv�)� 6  � Gp�pKs0X?bK�ǆ�q���  ���7� �{ hm[  F�7z�� TO�7ʛ#F��h��E�Ι b\��s�: ��� �慱8 � ��X�k���c&amp;B ���q0]b�  cA3H ��X�;��y��?�w���&quot; 7�ŹM�s�d �&lt;��(C,O� ���� �� Ǟ� _��� �˱k9�i��d ���K�0�� V?�.d�2=i�ee��  ��iV ׵1U?�� *�6 ��x�Z�ިʥ*zU&lt;��q  S ��. ���V��r 7B2HW�OU|W� �ϑ��C�z����.�J��s�;�}�*ݡ�*�s+�) 8U�RE � ���K}*���PT|�LA6O�D�� � )^Մ�M�IN�v3�� 3 bZR��� �0]?�⪤� rT���*�ϳ&quot;�Q1H�6Ų �;*��!�M`�R5+��qJ���� R?U% Z\�l� AH��Y�r��[�y�*U UO� �߭b�ڠnQeP5U��.� zäY3'\� �e�z�l�T �� ��i  T��W�**�!,�~y ۯ_� ��ί���כ� �^ ǧc��k�Ų�g���BJ &amp;�^ ��� �Ќ2�{��9�? ˹9n�۟�� ��-^L[��x3qcF�k�v:��
-e�*/�&lt;������� � 7���� �m�?[����_o1����g �� � ���I���r���&amp;�N� +d��A�n���9�&gt;k����g���֌|YU����ɪ&quot;;ڣ.�f+��e6�&amp;�lr T�J�� B �A� **0����Q���������`pF f+~mJQAnnH�5���h�2k� ��0Kaa@����e�� k�H���_ ��q��G�� ޶�'�v��Ї ���0�~���M|Y��ء�=��7�9������+��YPP2oi���C �P��G�g   u���/AK� �Mi ? a���9�}��6� s}���u�  JP�e%�&amp;� O�¶���         &lt;�!{�Μ��(�q9�5D3�9`k�.Uz�M����+�E�Q$ ��N��� �7� Y tc(�Tl��
- �$�Ә_(�R&gt;{֬9 k _r�&lt;�r � �[s�ي&lt;�0��v�����_'��\ٸq�$-O�p���?[fI��Ú�ڹy�{��oN\��v��o����p �1
-�� n�Zs���&gt;�L��ϟK&lt;��� �� j�G-��g�6� �A�mR� OX�݊�4]K+K;�v4MI��h ���J��dzZc��-N% �9J �*��*4�������^��8�,k�? ����!�        �ʙ7�8%+sO�����G�}Ƀ��r��rX� � y�&lt;)o��hL&lt;8Q�)��  �Dd��f��� se;�$����g��]��rc4ە�C �GUU�
-!��`��,:�( �y��as ����,,����f� �ӹ� ���;�O,2��C����_�H�8y��3��u�� g��wk�[��4�� ��\�: NB H˨s:����IF :��v���= r        = zH���${��i��'�,N��� �&quot;�n�F3�B�X���[r
-�
-v��N�#ճ�53Wo�+���{�_�ay��S瞟������/��,WP� u=#Ù��rV�#S� ��,
-r;}�Ȳ^X\�[Ɛ�Sd �%Ki�&lt;�z�!���V'� ���*� � �
-m�@p}($Z\ B�3�,���܁Y�9��PN��M=?'Ǌ �z�� #Ƒ#�U�y����J�}1�x���
-��O�g�+q�ҫ̅ � ='+-3�#I �����=wx ��� �  ��a�g 3�i�
-� `�0�N�=l ��eX˰��f���0�+�o�O�� � ��1i ��I�  �YL��\&amp;����F �ɔ� Z � ��(�&gt;b'��*��3|��Fv'��� &amp;�a S�&gt;f_Q@�6� ��P ���b�l�� �� OF���l?��b���RR��%��VG�?b(2�, `�J c 42,g�L�fSD��1&lt;�F��k� ��x)�v�q�  �� &amp;��@ C��/ ���g�S�e&amp;��� �~&amp;��հ &amp;�r �V� �-  
-��c?e� ��� /2��~�$��v 3�,�i��I
-˦�P�C A� � �/�� {� br� ��� ��P e'� &amp;��g.rod�l�Ymr���slq�p( ő���v8�� � b�)C!��5����/��K���o� ��I�7xɗ����_�� [�Op�SQ�6��_4�?�g�+=+�͙��G� �݋g W6T %Zpڞ������0Ѳ�@��        �� FV+�        ����?�䩡��/�����F.M�ߙ��&amp;Y /&amp;z�O/�d�_L��V�# yE�����Cp� � ��6 B�נ
-?����!���`U~        K�~ � �X �d�Dt �B�R&quot; Q Q=Q�h&gt;ב�+D��1�Z�� \o;  ) Ϸ��E�Ka+�Z+�9����r^�� [S��� �W�� �m�3mC ��!
-�| �Q�  U�_�Ē� _M�+I���Hc  I  � ��|���$ &lt;��na����c�&lt;Y�׉� � ��֊��4f �� B�&quot;�
-endstream
-endobj
-
-14 0 obj&lt;&lt;/Type/FontDescriptor/FontName/MUBOCY+Arimo-Bold/Flags 262176/FontBBox[-482 -376 1304 1033]/ItalicAngle 0/Ascent 905/Descent -212/AvgWidth 601/MaxWidth 1333/StemV 165/FontFile2 20 0 R/XHeight 528/CapHeight 688/FontFamily(Arimo)/FontWeight 700/FontStretch/Normal&gt;&gt;
-endobj
-
-21 0 obj&lt;&lt;/CreationDate (D:20150919123208)/Creator (Pdfcrowd - online HTML to PDF API - http://pdfcrowd.com)/Producer (JagPDF 1.5.0, http://jagpdf.org            )&gt;&gt;
-endobj
-
-xref
-0 22
-0000000000 65535 f
-0000000015 00000 n
-0000000487 00000 n
-0000001234 00000 n
-0000001864 00000 n
-0000002500 00000 n
-0000000547 00000 n
-0000000694 00000 n
-0000000820 00000 n
-0000000940 00000 n
-0000001067 00000 n
-0000001119 00000 n
-0000001162 00000 n
-0000001297 00000 n
-0000012860 00000 n
-0000001537 00000 n
-0000001996 00000 n
-0000006924 00000 n
-0000002193 00000 n
-0000002627 00000 n
-0000007194 00000 n
-0000013141 00000 n
-trailer
-&lt;&lt;/Size 22/Root 12 0 R/Info 21 0 R/ID[&lt;3bd557539948ba1c9a36f467d5809408&gt; &lt;3bd557539948ba1c9a36f467d5809408&gt;]&gt;&gt;
-startxref
-13315
-%%EOF</code></pre>
+Content-Disposition: inline; filename=&quot;line_with_bold.pdf&quot;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>=== Cannot find resume Resume</p>
+<p><strong>Cannot find resume Resume</strong></p>
 </div>
 <div class="paragraph">
 <p>Request</p>
@@ -1090,20 +761,67 @@ Host: localhost</code></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
 <p>Response</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 98
+Content-Length: 87
 
-{
-  &quot;resultCode&quot; : &quot;RESUME_NOT_FOUND&quot;,
-  &quot;message&quot; : &quot;Unable to find the user: 'notpresentuser'&quot;
-}</code></pre>
+{&quot;resultCode&quot;:&quot;RESUME_NOT_FOUND&quot;,&quot;message&quot;:&quot;Unable to find the user: 'notpresentuser'&quot;}</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1112,7 +830,7 @@ Content-Length: 98
 <div id="footer">
 <div id="footer-text">
 Version unspecified<br>
-Last updated 2016-02-27 17:36:22 -05:00
+Last updated 2016-03-15 14:42:36 -04:00
 </div>
 </div>
 </body>
