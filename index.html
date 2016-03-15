@@ -544,7 +544,7 @@ We just haven&#8217;t decided what that is yet.</p>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>== Authentication</p>
+<p><strong>Authentication Success</strong></p>
 </div>
 <div class="paragraph">
 <p>Request</p>
@@ -593,6 +593,58 @@ Host: localhost</code></pre>
 </div>
 <div class="paragraph">
 <p>The token variable should be used in all the subsequent requests.</p>
+</div>
+<div class="paragraph">
+<p><strong>Authentication error</strong></p>
+</div>
+<div class="paragraph">
+<p>Request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/authenticate HTTP/1.1
+Accept: application/json
+X-Auth-Username: backend_admin
+X-Auth-Password: backendpassword
+Host: localhost</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Username user to authenticate the client</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the user to authenticate the client</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 401 Unauthorized
+{
+  &quot;timestamp&quot;: 1458079772296,
+  &quot;status&quot;: 401,
+  &quot;error&quot;: &quot;Unauthorized&quot;,
+  &quot;message&quot;: &quot;Invalid Backend Admin Credentials&quot;,
+  &quot;path&quot;: &quot;/api/v1/authenticate&quot;
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
