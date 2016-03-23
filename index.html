@@ -586,14 +586,42 @@ Host: localhost</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
-{
-  &quot;token&quot;: &quot;1231-12312-12312&quot;
-}</code></pre>
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Content-Length: 48
+
+{&quot;token&quot;:&quot;015b0bf4-4800-4446-956f-9b8ce9311ff9&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The token variable should be used in all the subsequent requests.</p>
+<p>Parameters on response</p>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Token that should be used in subsequent requests</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p><strong>Authentication error</strong></p>
 </div>
@@ -604,7 +632,7 @@ Host: localhost</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/authenticate HTTP/1.1
 Accept: application/json
-X-Auth-Username: backend_admin
+X-Auth-Username: backend_admin1
 X-Auth-Password: backendpassword
 Host: localhost</code></pre>
 </div>
@@ -637,13 +665,12 @@ Host: localhost</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 401 Unauthorized
-{
-  &quot;timestamp&quot;: 1458079772296,
-  &quot;status&quot;: 401,
-  &quot;error&quot;: &quot;Unauthorized&quot;,
-  &quot;message&quot;: &quot;Invalid Backend Admin Credentials&quot;,
-  &quot;path&quot;: &quot;/api/v1/authenticate&quot;
-}</code></pre>
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -770,7 +797,7 @@ Content-Length: 63
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/asdasdasd HTTP/1.1
-X-Auth-Token: 253593c7-b935-4c9c-a3ca-df37a111a024
+X-Auth-Token: 9f9cec3b-6f35-4238-af9a-50aa9e67c0f2
 Host: localhost</code></pre>
 </div>
 </div>
@@ -814,7 +841,7 @@ Content-Disposition: inline; filename=&quot;line_with_bold.pdf&quot;</code></pre
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/notpresentuser HTTP/1.1
-X-Auth-Token: 84885f5a-6130-4b77-a811-90a6e1170c6e
+X-Auth-Token: 16d2ae8d-c846-4646-acfd-ee7934078df2
 Host: localhost</code></pre>
 </div>
 </div>
@@ -895,7 +922,7 @@ Content-Length: 87
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/curriculum/match HTTP/1.1
-X-Auth-Token: cca132c0-11ca-426d-876f-84b48b8fc9e1
+X-Auth-Token: 83d13c44-79b0-48f9-a535-c83c6c118c00
 Accept: application/json
 Host: localhost
 Content-Type: application/x-www-form-urlencoded
@@ -1009,7 +1036,7 @@ Content-Length: 57
 <div id="footer">
 <div id="footer-text">
 Version unspecified<br>
-Last updated 2016-03-15 18:23:12 -04:00
+Last updated 2016-03-23 11:45:53 -04:00
 </div>
 </div>
 </body>
