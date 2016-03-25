@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
-<meta name="author" content="Joao Pereira">
+<meta name="author" content="Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-03-25">
 <title>PETS Resume cruncher API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
@@ -507,17 +507,33 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>PETS Resume cruncher API Documentation</h1>
 <div class="details">
-<span id="author" class="author">Joao Pereira</span><br>
-<span id="email" class="email"><a href="mailto:joaopapereira@gmail.com">joaopapereira@gmail.com</a></span><br>
-<span id="revnumber">version unspecified,</span>
-<span id="revdate">2016-02-27</span>
+<span id="author" class="author">Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-03-25</span><br>
+<span id="revnumber">version 0.1.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#authentication">Authentication</a></li>
-<li><a href="#curriculum">Curriculum</a></li>
+<li><a href="#authentication">Authentication</a>
+<ul class="sectlevel2">
+<li><a href="#authentication-success">Authentication Success</a></li>
+<li><a href="#authentication-error">Authentication error</a></li>
+</ul>
+</li>
+<li><a href="#curriculum-operations">Curriculum Operations</a>
+<ul class="sectlevel2">
+<li><a href="#upload-resume">Upload Resume</a></li>
+<li><a href="#download-resume">Download Resume</a></li>
+<li><a href="#match-resumes-with-job-description">Match Resumes with job description</a></li>
+</ul>
+</li>
+<li><a href="#jobs-operations">Jobs Operations</a>
+<ul class="sectlevel2">
+<li><a href="#create-a-new-job">Create a new job</a></li>
+<li><a href="#update-a-job">Update a job</a></li>
+<li><a href="#match-jobs-with-resume">Match jobs with resume</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -533,19 +549,15 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="introduction">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This project does something.
-We just haven&#8217;t decided what that is yet.</p>
+<p>This API can is used to upload/download Resumes from the Mongo Database</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="authentication">Authentication</h2>
 <div class="sectionbody">
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p><strong>Authentication Success</strong></p>
-</div>
+<div class="sect2">
+<h3 id="authentication-success">Authentication Success</h3>
 <div class="paragraph">
 <p>Request</p>
 </div>
@@ -595,7 +607,7 @@ X-Frame-Options: DENY
 Content-Type: application/json
 Content-Length: 48
 
-{&quot;token&quot;:&quot;015b0bf4-4800-4446-956f-9b8ce9311ff9&quot;}</code></pre>
+{&quot;token&quot;:&quot;ef57759b-f935-44c4-9474-27ea812a2ad3&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -622,9 +634,9 @@ Content-Length: 48
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p><strong>Authentication error</strong></p>
 </div>
+<div class="sect2">
+<h3 id="authentication-error">Authentication error</h3>
 <div class="paragraph">
 <p>Request</p>
 </div>
@@ -676,15 +688,11 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="curriculum">Curriculum</h2>
+<h2 id="curriculum-operations">Curriculum Operations</h2>
 <div class="sectionbody">
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p><strong>Upload Resume</strong></p>
-</div>
+<div class="sect2">
+<h3 id="upload-resume">Upload Resume</h3>
 <div class="paragraph">
 <p>Request</p>
 </div>
@@ -778,7 +786,7 @@ Content-Length: 63
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
 </tr>
 <tr>
@@ -788,16 +796,16 @@ Content-Length: 63
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p><strong>Download Resume</strong></p>
 </div>
+<div class="sect2">
+<h3 id="download-resume">Download Resume</h3>
 <div class="paragraph">
 <p>Request</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/asdasdasd HTTP/1.1
-X-Auth-Token: 9f9cec3b-6f35-4238-af9a-50aa9e67c0f2
+X-Auth-Token: 4fcdda8c-121b-495f-a47e-8f7b98d18af7
 Host: localhost</code></pre>
 </div>
 </div>
@@ -822,6 +830,8 @@ Host: localhost</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="sect3">
+<h4 id="success-response">Success response</h4>
 <div class="paragraph">
 <p>Response</p>
 </div>
@@ -832,40 +842,9 @@ Content-Type: application/octet-stream
 Content-Disposition: inline; filename=&quot;line_with_bold.pdf&quot;</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Cannot find resume Resume</strong></p>
 </div>
-<div class="paragraph">
-<p>Request</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/notpresentuser HTTP/1.1
-X-Auth-Token: 16d2ae8d-c846-4646-acfd-ee7934078df2
-Host: localhost</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Headers</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sect3">
+<h4 id="cannot-find-resume-resume">Cannot find resume Resume</h4>
 <div class="paragraph">
 <p>Response</p>
 </div>
@@ -903,7 +882,7 @@ Content-Length: 87
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
 </tr>
 <tr>
@@ -913,16 +892,17 @@ Content-Length: 87
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p><strong>Match resumes with job description</strong></p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="match-resumes-with-job-description">Match Resumes with job description</h3>
 <div class="paragraph">
 <p>Request</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/curriculum/match HTTP/1.1
-X-Auth-Token: 83d13c44-79b0-48f9-a535-c83c6c118c00
+X-Auth-Token: 594d9414-e5f3-4899-89d3-a4c7133a1805
 Accept: application/json
 Host: localhost
 Content-Type: application/x-www-form-urlencoded
@@ -1013,7 +993,7 @@ Content-Length: 57
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
 </tr>
 <tr>
@@ -1031,12 +1011,545 @@ Content-Length: 57
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="jobs-operations">Jobs Operations</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="create-a-new-job">Create a new job</h3>
+<div class="sect3">
+<h4 id="http-request">HTTP Request</h4>
+<div class="paragraph">
+<p>Request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/job/create HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data
+X-Auth-Token: 1234
+Host: localhost
+
+jobId=1&amp;title=Job+title&amp;description=My+awsome+job+description</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Parameters</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jobId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Job Identifier to create</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of the job</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description of the job</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="http-answers">HTTP Answers</h4>
+<div class="sect4">
+<h5 id="success">Success</h5>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 59
+
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Job added successfully&quot;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="sect4">
+<h5 id="create-job-with-id-that-already-exists">Create job with ID that already exists</h5>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{&quot;resultCode&quot;:&quot;JOB_ID_EXISTS&quot;,&quot;message&quot;:&quot;Trying to create job that already exists&quot;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="update-a-job">Update a job</h3>
+<div class="sect3">
+<h4 id="http-request-2">HTTP Request</h4>
+<div class="paragraph">
+<p>Request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">PATCH /api/v1/job/1/update HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data
+X-Auth-Token: 1234
+Host: localhost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Parameters</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jobId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Job Identifier to create</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of the job(Optional)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description of the job(Optional)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="http-answers-2">HTTP Answers</h4>
+<div class="sect4">
+<h5 id="success-2">Success</h5>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 61
+
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Job updated successfully&quot;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="sect5">
+<h6 id="create-job-with-id-that-already-exists-2">Create job with ID that already exists</h6>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 56
+
+{&quot;resultCode&quot;:&quot;JOB_NOT_FOUND&quot;,&quot;message&quot;:&quot;Job not found&quot;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="match-jobs-with-resume">Match jobs with resume</h3>
+<div class="sect3">
+<h4 id="http-request-3">HTTP Request</h4>
+<div class="paragraph">
+<p>Request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/job/match/1 HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data
+X-Auth-Token: 1234
+Host: localhost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Path Parameters
+./api/v1/job/match/{resumeId}</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resumeId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User identifier of the resume</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="http-answers-3">HTTP Answers</h4>
+<div class="sect4">
+<h5 id="success-3">Success</h5>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 107
+
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Success&quot;,&quot;jobs&quot;:{&quot;matcher2&quot;:[&quot;job3&quot;,&quot;job2&quot;],&quot;matcher1&quot;:[&quot;job1&quot;,&quot;job2&quot;]}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jobs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hash with a list of job names matched by each cruncher</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="sect5">
+<h6 id="cannot-find-the-resume-to-match-jobs-against">Cannot find the Resume to match jobs against</h6>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 68
+
+{&quot;resultCode&quot;:&quot;RESUME_NOT_FOUND&quot;,&quot;message&quot;:&quot;Cannot find the resume&quot;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="unable-to-find-job-that-match-the-resume">Unable to find Job that match the Resume</h6>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 54
+
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Success&quot;,&quot;jobs&quot;:{}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jobs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hash with a list of job names matched by each cruncher</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version unspecified<br>
-Last updated 2016-03-23 11:45:53 -04:00
+Version 0.1.0<br>
+Last updated 2016-03-25 15:26:32 -04:00
 </div>
 </div>
 </body>
