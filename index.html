@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
-<meta name="author" content="Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-08-05">
+<meta name="author" content="Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-08-16">
 <title>PETS Resume cruncher API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
@@ -507,7 +507,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>PETS Resume cruncher API Documentation</h1>
 <div class="details">
-<span id="author" class="author">Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-08-05</span><br>
+<span id="author" class="author">Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-08-16</span><br>
 <span id="revnumber">version 0.1.0</span>
 </div>
 <div id="toc" class="toc2">
@@ -525,6 +525,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#upload-resume">Upload Resume</a></li>
 <li><a href="#download-resume">Download Resume</a></li>
 <li><a href="#match-resumes-with-job-description">Match Resumes with job description</a></li>
+<li><a href="#match-resumes-with-job-identifier">Match Resumes with job identifier</a></li>
 </ul>
 </li>
 <li><a href="#jobs-operations">Jobs Operations</a>
@@ -607,7 +608,7 @@ X-Frame-Options: DENY
 Content-Type: application/json
 Content-Length: 48
 
-{&quot;token&quot;:&quot;84195967-5516-42ae-9c9c-5301157b4047&quot;}</code></pre>
+{&quot;token&quot;:&quot;9c80b34f-d020-4516-a870-7af4babf194f&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -805,7 +806,7 @@ Content-Length: 63
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/asdasdasd HTTP/1.1
-X-Auth-Token: 0d5a869f-1df4-4c86-b250-5b4ed4aee508
+X-Auth-Token: 8b2d1735-efe4-4062-b5dd-5a251b47d2b8
 Host: localhost</code></pre>
 </div>
 </div>
@@ -902,7 +903,7 @@ Content-Length: 87
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/curriculum/match HTTP/1.1
-X-Auth-Token: b823efe7-da2c-477a-afe9-e9edb2a3f0ef
+X-Auth-Token: 0b330153-7fef-4923-aa30-5c28a6469417
 Accept: application/json
 Host: localhost
 Content-Type: application/x-www-form-urlencoded
@@ -953,6 +954,115 @@ title=Stone+mason&amp;description=Stone+mason+that+is+able+to+build+some+nice+wa
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">description</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description of the Job</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Response</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
+Content-Length: 57
+
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Success&quot;,&quot;resumes&quot;:{}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters on response</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resultCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class org.metplus.curriculum.web.answers.ResultCodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message associated with the result code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resumes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hash with the resumes found for each cruncher</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="match-resumes-with-job-identifier">Match Resumes with job identifier</h3>
+<div class="paragraph">
+<p>Request</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/match/1 HTTP/1.1
+X-Auth-Token: 6bdb2f70-4e60-49a2-baa9-3e93f2634e83
+Accept: application/json
+Host: localhost</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Headers</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X-Auth-Token</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication token retrieved from the authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Parameters
+./api/v1/curriculum/match/{jobId}</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jobId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Job Identifier to retrieve the Resumes that match the job</p></td>
 </tr>
 </tbody>
 </table>
@@ -1549,7 +1659,7 @@ Content-Length: 54
 <div id="footer">
 <div id="footer-text">
 Version 0.1.0<br>
-Last updated 2016-08-05 17:15:15 -04:00
+Last updated 2016-08-15 17:18:06 -04:00
 </div>
 </div>
 </body>
