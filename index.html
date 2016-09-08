@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
-<meta name="author" content="Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-08-17">
+<meta name="author" content="Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-09-08">
 <title>PETS Resume cruncher API Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
@@ -507,7 +507,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>PETS Resume cruncher API Documentation</h1>
 <div class="details">
-<span id="author" class="author">Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-08-17</span><br>
+<span id="author" class="author">Joao Pereira &lt;joaopapereira@gmail.com&gt; 2016-09-08</span><br>
 <span id="revnumber">version 0.1.0</span>
 </div>
 <div id="toc" class="toc2">
@@ -608,7 +608,7 @@ X-Frame-Options: DENY
 Content-Type: application/json
 Content-Length: 48
 
-{&quot;token&quot;:&quot;0ff6743b-6e56-49a7-9007-8514d8525e36&quot;}</code></pre>
+{&quot;token&quot;:&quot;8211791d-9c8b-4ce5-8301-5aeee22d7e60&quot;}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -806,7 +806,7 @@ Content-Length: 63
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">GET /api/v1/curriculum/asdasdasd HTTP/1.1
-X-Auth-Token: 9c5f7175-8f40-4ee1-98da-e99d9434825a
+X-Auth-Token: 416dbd46-0294-4606-9b6d-398eb2b7e220
 Host: localhost</code></pre>
 </div>
 </div>
@@ -903,7 +903,7 @@ Content-Length: 87
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">POST /api/v1/curriculum/match HTTP/1.1
-X-Auth-Token: 585ba594-4b41-4ed5-8e50-a01754c42027
+X-Auth-Token: 123-1234-1234
 Accept: application/json
 Host: localhost
 Content-Type: application/x-www-form-urlencoded
@@ -963,12 +963,6 @@ title=Stone+mason&amp;description=Stone+mason+that+is+able+to+build+some+nice+wa
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
 
@@ -1178,9 +1172,9 @@ Host: localhost</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 98
+Content-Length: 222
 
-{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Success&quot;,&quot;resumes&quot;:{&quot;matcher2&quot;:[&quot;3&quot;,&quot;2&quot;],&quot;matcher1&quot;:[&quot;1&quot;,&quot;2&quot;]}}</code></pre>
+{&quot;resultCode&quot;:&quot;SUCCESS&quot;,&quot;message&quot;:&quot;Success&quot;,&quot;resumes&quot;:{&quot;matcher2&quot;:[{&quot;resumeId&quot;:&quot;3&quot;,&quot;probability&quot;:0.0},{&quot;resumeId&quot;:&quot;2&quot;,&quot;probability&quot;:0.0}],&quot;matcher1&quot;:[{&quot;resumeId&quot;:&quot;1&quot;,&quot;probability&quot;:0.0},{&quot;resumeId&quot;:&quot;2&quot;,&quot;probability&quot;:0.0}]}}</code></pre>
 </div>
 </div>
 <div class="paragraph">
