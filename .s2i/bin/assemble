@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 # restore maven dependencies downloaded in a previous build,
 # so they do not have to be downloaded again.  
@@ -14,6 +14,9 @@ function restore_saved_artifacts() {
     popd &> /dev/null
   fi
 }
+
+df -kh
+
 # restore build artifacts
 if [ "$(ls /tmp/s2i/artifacts/ 2>/dev/null)" ]; then
     mv /tmp/s2i/artifacts/* $HOME/.
