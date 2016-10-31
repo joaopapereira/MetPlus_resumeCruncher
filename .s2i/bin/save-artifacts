@@ -1,8 +1,10 @@
 #!/bin/bash
 
 pushd ${HOME}
+ls -ltr
+pwd
 if [ -d .m2 ]; then
     # all .m2 contents to tar stream
-    tar cf - deps
+    tar cf - .m2/
 fi
 popd
