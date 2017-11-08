@@ -1,5 +1,5 @@
 package org.metplus.curriculum.domain
 
-class JobCruncherData {
+data class JobCruncherData(
     var cruncherData: Map<String, JobCruncherDataMap> = emptyMap()
-}
+)
