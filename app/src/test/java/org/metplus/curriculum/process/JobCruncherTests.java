@@ -5,8 +5,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.metplus.curriculum.cruncher.Cruncher;
 import org.metplus.curriculum.cruncher.CrunchersList;
-import org.metplus.curriculum.database.domain.Job;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.domain.JobMongo;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -26,7 +26,7 @@ public class JobCruncherTests {
         @Mock
         private CrunchersList allCrunchers;
         @Mock
-        private JobRepository jobRepository;
+        private JobDocumentRepository jobRepository;
         @InjectMocks
         private JobCruncher jobCruncher;
 
@@ -38,11 +38,11 @@ public class JobCruncherTests {
             jobCruncher.stop();
             jobCruncher.join();
             Mockito.verify(allCrunchers, Mockito.times(0)).getCrunchers();
-            Mockito.verify(jobRepository, Mockito.times(0)).save(Mockito.<Job>any());
+            Mockito.verify(jobRepository, Mockito.times(0)).save(Mockito.<JobMongo>any());
         }
         @Test
         public void oneJob() throws InterruptedException {
-            Job job = Mockito.mock(Job.class);
+            JobMongo job = Mockito.mock(JobMongo.class);
             List<Cruncher> listCrunchers = new ArrayList<>();
             listCrunchers.add(cruncherImpl);
             Mockito.when(allCrunchers.getCrunchers()).thenReturn(listCrunchers);
@@ -55,10 +55,10 @@ public class JobCruncherTests {
         }
         @Test
         public void twoJobs() throws InterruptedException {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             job1.setTitle("title 1");
             job1.setDescription("description 1");
-            Job job2 = new Job();
+            JobMongo job2 = new JobMongo();
             job2.setTitle("title 2");
             job2.setDescription("description 2");
             List<Cruncher> listCrunchers = new ArrayList<>();

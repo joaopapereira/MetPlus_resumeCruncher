@@ -2,10 +2,11 @@ package org.metplus.curriculum.database.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.metplus.curriculum.cruncher.CruncherMetaData;
+import org.metplus.curriculum.domain.JobCruncherDataField;
+import org.metplus.curriculum.domain.JobCruncherDataMap;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -19,6 +20,19 @@ public class MetaData extends AbstractDocument implements CruncherMetaData {
 
     @JsonIgnore
     private List<String> orderedFields;
+
+    public MetaData() {
+        super();
+    }
+
+    public MetaData(JobCruncherDataMap jobCruncherDataMap) {
+        super();
+        Map<String, MetaDataField> data = new HashMap<>();
+        for(Map.Entry<String, JobCruncherDataField> field: jobCruncherDataMap.getMetaData().entrySet()) {
+            data.put(field.getKey(), new MetaDataField(field.getValue()));
+        }
+        this.setFields(data);
+    }
 
     /**
      * Retrieve all the fields meta data
@@ -80,5 +94,15 @@ public class MetaData extends AbstractDocument implements CruncherMetaData {
         else
             result += "empty";
         return result;
+    }
+
+    public JobCruncherDataMap toJobCruncherMetaData() {
+        JobCruncherDataMap data = new JobCruncherDataMap();
+        Map<String, JobCruncherDataField> cruncherFields = new HashMap<>();
+        for(Map.Entry<String, MetaDataField> fields : getFields().entrySet()) {
+            cruncherFields.put(fields.getKey(), fields.getValue().toJobCruncherDataField());
+        }
+        data.setMetaData(cruncherFields);
+        return data;
     }
 }

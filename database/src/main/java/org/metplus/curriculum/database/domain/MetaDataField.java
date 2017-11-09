@@ -1,5 +1,7 @@
 package org.metplus.curriculum.database.domain;
 
+import org.metplus.curriculum.domain.JobCruncherDataField;
+
 /**
  * Meta data field information
  */
@@ -34,5 +36,11 @@ public class MetaDataField<T> {
         String result = "MetaDataField: ";
         result += "'" + data + "'";
         return result;
+    }
+
+    public JobCruncherDataField toJobCruncherDataField() {
+        JobCruncherDataField<T> field = new JobCruncherDataField<>();
+        field.setValue(getData());
+        return field;
     }
 }

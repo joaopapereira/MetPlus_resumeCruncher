@@ -2,7 +2,7 @@ package org.metplus.curriculum.web.answers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.metplus.curriculum.database.domain.Job;
+import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.web.StarFormater;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class that represents all the Job that
+ * Class that represents all the JobMongo that
  * match a specific resume
  */
 public class JobMatchAnswer<T> extends GenericAnswer {
@@ -72,11 +72,11 @@ public class JobMatchAnswer<T> extends GenericAnswer {
     }
 
     /**
-     * Add a Job that matches
+     * Add a JobMongo that matches
      * @param cruncherName Cruncher name
-     * @param job Job to add
+     * @param job JobMongo to add
      */
-    public void addJob(String cruncherName, Job job, boolean withProbability) {
+    public void addJob(String cruncherName, JobMongo job, boolean withProbability) {
         if(!getJobs().containsKey(cruncherName))
             getJobs().put(cruncherName, new ArrayList<>());
         if(withProbability)

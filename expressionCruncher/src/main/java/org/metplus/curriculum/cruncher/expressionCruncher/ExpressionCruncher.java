@@ -4,7 +4,7 @@ import org.metplus.curriculum.cruncher.Cruncher;
 import org.metplus.curriculum.cruncher.Matcher;
 import org.metplus.curriculum.database.domain.*;
 import org.metplus.curriculum.database.exceptions.CruncherSettingsNotFound;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.metplus.curriculum.database.repository.SettingsRepository;
 import org.metplus.curriculum.init.CruncherInitializer;
@@ -75,7 +75,7 @@ public class ExpressionCruncher extends CruncherInitializer {
     @Autowired
     private ResumeRepository resumeRepository;
     @Autowired
-    private JobRepository jobRepository;
+    private JobDocumentRepository jobRepository;
 
     @Override
     public void init() {

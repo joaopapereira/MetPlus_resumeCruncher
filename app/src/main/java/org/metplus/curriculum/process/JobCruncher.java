@@ -2,9 +2,9 @@ package org.metplus.curriculum.process;
 
 import org.metplus.curriculum.cruncher.Cruncher;
 import org.metplus.curriculum.database.domain.DocumentWithMetaData;
-import org.metplus.curriculum.database.domain.Job;
+import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.MetaData;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,14 @@ import java.util.Map;
  * to crunch the job information
  */
 @Component("jobCruncher")
-public class JobCruncher extends ProcessCruncher<Job>{
+public class JobCruncher extends ProcessCruncher<JobMongo>{
     private static final Logger logger = LoggerFactory.getLogger(JobCruncher.class);
 
     @Autowired
-    JobRepository jobRepository;
+    JobDocumentRepository jobRepository;
 
     @Override
-    protected void process(Job job) {
+    protected void process(JobMongo job) {
         logger.trace("process({})", job);
         Map<String, MetaData> allDescriptionMetaData = new HashMap<>();
         Map<String, MetaData> allTitleMetaData = new HashMap<>();
@@ -54,6 +54,6 @@ public class JobCruncher extends ProcessCruncher<Job>{
         descriptionData.setMetaData(allDescriptionMetaData);
         job.setDescriptionMetaData(descriptionData);
         jobRepository.save(job);
-        logger.debug("Job [{}] processed successfully", job);
+        logger.debug("JobMongo [{}] processed successfully", job);
     }
 }

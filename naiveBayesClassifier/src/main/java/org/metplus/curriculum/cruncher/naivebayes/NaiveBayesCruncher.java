@@ -6,7 +6,7 @@ import org.metplus.curriculum.database.domain.CruncherSettings;
 import org.metplus.curriculum.database.domain.Setting;
 import org.metplus.curriculum.database.domain.Settings;
 import org.metplus.curriculum.database.exceptions.CruncherSettingsNotFound;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.metplus.curriculum.database.repository.SettingsRepository;
 import org.metplus.curriculum.init.CruncherInitializer;
@@ -59,7 +59,7 @@ public class NaiveBayesCruncher extends CruncherInitializer {
     @Autowired
     private ResumeRepository resumeRepository;
     @Autowired
-    private JobRepository jobRepository;
+    private JobDocumentRepository jobRepository;
 
     public NaiveBayesCruncher() {
 

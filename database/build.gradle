@@ -9,6 +9,8 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     compile('org.springframework.data:spring-data-mongodb')
     compile project(':core')
+    compile project(':business_logic')
     testCompile("junit:junit:4.12")
+    testCompile project(path: ':business_logic', configuration: 'testArtifacts')
 }
 

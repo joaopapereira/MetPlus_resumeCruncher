@@ -1,5 +1,6 @@
 package org.metplus.curriculum.database.domain;
 
+import org.metplus.curriculum.domain.Job;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -7,10 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Map;
 
 /**
- * Job Model
+ * JobMongo Model
  */
 @Document
-public class Job extends DocumentWithMetaData {
+public class JobMongo extends DocumentWithMetaData {
     @Field
     private String title;
     @Field
@@ -26,9 +27,32 @@ public class Job extends DocumentWithMetaData {
 
     @Transient
     private double starRating;
+    public JobMongo() {
+        super();
+    }
+
+    public JobMongo(Job job) {
+        super();
+
+        this.setJobId(job.getJobId());
+        this.setDescription(job.getDescription());
+        this.setTitle(job.getTitle());
+        this.setStarRating(job.getStarRating());
+        this.setTitleMetaData(new DocumentWithMetaData(job.getTitleMetaData()));
+    }
+
+    public Job toJob() {
+        Job job = new Job();
+        job.setTitle(title);
+        job.setJobId(jobId);
+        job.setDescription(description);
+        job.setStarRating(starRating);
+        job.setDescriptionMetaData(titleMetaData.toCruncherData());
+        return new Job();
+    }
 
     /**
-     * Check if the Job have data from a specific cruncher
+     * Check if the JobMongo have data from a specific cruncher
      * @param cruncherName Name of the cruncher
      * @return True if have data, False otherwise
      */
@@ -111,19 +135,17 @@ public class Job extends DocumentWithMetaData {
      */
     public DocumentWithMetaData getTitleMetaData() {return titleMetaData;}
 
-
-
     /**
-     * Retrieve the title of the Job
-     * @return Job Title
+     * Retrieve the title of the JobMongo
+     * @return JobMongo Title
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Set the Job Title
-     * @param title Job Title
+     * Set the JobMongo Title
+     * @param title JobMongo Title
      */
     public void setTitle(String title) {
         this.title = title;
@@ -131,7 +153,7 @@ public class Job extends DocumentWithMetaData {
 
     /**
      * Retrieve the job identifier
-     * @return Job Identifier
+     * @return JobMongo Identifier
      */
     public String getJobId() {
         return jobId;
@@ -139,7 +161,7 @@ public class Job extends DocumentWithMetaData {
 
     /**
      * Set the job identifier
-     * @param jobId Job identifier
+     * @param jobId JobMongo identifier
      */
     public void setJobId(String jobId) {
         this.jobId = jobId;
@@ -147,7 +169,7 @@ public class Job extends DocumentWithMetaData {
 
     /**
      * Retrieve the job description
-     * @return Job Description
+     * @return JobMongo Description
      */
     public String getDescription() {
         return description;
@@ -155,14 +177,14 @@ public class Job extends DocumentWithMetaData {
 
     /**
      * Set the job description
-     * @param description Job Description
+     * @param description JobMongo Description
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * Retrieve the startRating of the Job
+     * Retrieve the startRating of the JobMongo
      * @return Start rating
      */
     public double getStarRating() {
@@ -170,7 +192,7 @@ public class Job extends DocumentWithMetaData {
     }
 
     /**
-     * Set the start rating of the Job
+     * Set the start rating of the JobMongo
      * @param starRating Star rating
      */
     public void setStarRating(double starRating) {

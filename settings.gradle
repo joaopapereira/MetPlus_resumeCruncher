@@ -1,5 +1,8 @@
 rootProject.name = 'org.metplus.cruncher'
-include 'database', 'app', 'core'
+include 'database'
+include 'app' 
+include 'core'
 include 'expressionCruncher'
 include 'naiveBayesClassifier'
+include 'business_logic'
 

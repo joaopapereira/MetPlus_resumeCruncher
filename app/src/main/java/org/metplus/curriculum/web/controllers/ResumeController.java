@@ -4,11 +4,11 @@ package org.metplus.curriculum.web.controllers;
 import org.metplus.curriculum.cruncher.Matcher;
 import org.metplus.curriculum.cruncher.MatcherList;
 import org.metplus.curriculum.database.config.SpringMongoConfig;
-import org.metplus.curriculum.database.domain.Job;
+import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.Resume;
 import org.metplus.curriculum.database.exceptions.ResumeNotFound;
 import org.metplus.curriculum.database.exceptions.ResumeReadException;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.metplus.curriculum.process.ResumeCruncher;
 import org.metplus.curriculum.web.answers.GenericAnswer;
@@ -40,7 +40,7 @@ public class ResumeController {
     private ResumeRepository resumeRepository;
 
     @Autowired
-    private JobRepository jobRepository;
+    private JobDocumentRepository jobRepository;
 
     @Autowired
     private SpringMongoConfig dbConfig;
@@ -51,7 +51,7 @@ public class ResumeController {
     public ResumeController() {
     }
 
-    public ResumeController(JobRepository jobRepository, ResumeRepository resumeRepository, MatcherList matcherList, ResumeCruncher resumeCruncher) {
+    public ResumeController(JobDocumentRepository jobRepository, ResumeRepository resumeRepository, MatcherList matcherList, ResumeCruncher resumeCruncher) {
         this.jobRepository = jobRepository;
         this.resumeRepository = resumeRepository;
         this.matcherList = matcherList;
@@ -179,7 +179,7 @@ public class ResumeController {
             return new ResponseEntity<>(answer, HttpStatus.BAD_REQUEST);
         }
         List<Resume> matchedResumes = null;
-        Job job = jobRepository.findByJobId(jobId);
+        JobMongo job = jobRepository.findByJobId(jobId);
         if (job == null) {
             logger.error("Unable to find job with id: " + jobId);
             GenericAnswer answer = new GenericAnswer();
@@ -280,7 +280,7 @@ public class ResumeController {
             return new ResponseEntity<>(answer, HttpStatus.BAD_REQUEST);
         }
         List<Resume> matchedResumes = null;
-        Job job = jobRepository.findByJobId(jobId);
+        JobMongo job = jobRepository.findByJobId(jobId);
         if (job == null) {
             logger.error("Unable to find job with id: " + jobId);
             GenericAnswer answer = new GenericAnswer();

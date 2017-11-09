@@ -4,14 +4,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.metplus.curriculum.cruncher.Cruncher;
 import org.metplus.curriculum.database.domain.*;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +32,7 @@ public class MatcherImplTest {
         @Mock
         private ResumeRepository resumeRepository;
         @Mock
-        private JobRepository jobRepository;
+        private JobDocumentRepository jobRepository;
 
         private CruncherImpl cruncher;
 
@@ -129,7 +127,7 @@ public class MatcherImplTest {
         @Mock
         private ResumeRepository resumeRepository;
         @Mock
-        private JobRepository jobRepository;
+        private JobDocumentRepository jobRepository;
 
         private CruncherImpl cruncher;
 
@@ -186,7 +184,7 @@ public class MatcherImplTest {
             return resumes;
         }
 
-        private void crunchJob(Job job) {
+        private void crunchJob(JobMongo job) {
             Map<String, MetaData> allDescriptionMetaData = new HashMap<>();
             Map<String, MetaData> allTitleMetaData = new HashMap<>();
             MetaData titleMetaData = (MetaData) cruncher.crunch(job.getTitle());
@@ -207,7 +205,7 @@ public class MatcherImplTest {
             Mockito.when(resumeRepository.resumesOnCriteria(Mockito.any())).thenReturn(initialize());
             resumeMatcher = new MatcherImpl(cruncher, resumeRepository, jobRepository);
 
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setTitle("pico");
             job.setDescription("pico de gallo");
             crunchJob(job);
@@ -219,7 +217,7 @@ public class MatcherImplTest {
             Mockito.when(resumeRepository.resumesOnCriteria(Mockito.any())).thenReturn(initialize());
             resumeMatcher = new MatcherImpl(cruncher, resumeRepository, jobRepository);
 
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setTitle("pico");
             job.setDescription("pico de gallo");
             assertNull(resumeMatcher.matchInverse(job));
@@ -230,7 +228,7 @@ public class MatcherImplTest {
 
             Mockito.when(resumeRepository.resumesOnCriteria(Mockito.any())).thenReturn(initialize());
             resumeMatcher = new MatcherImpl(cruncher, resumeRepository, jobRepository);
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setTitle("ipsum");
             job.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis odio ut neque venenatis iaculis nec eu diam. Sed a libero odio. Suspendisse iaculis velit nec sodales fermentum. Suspendisse potenti. Donec ultricies nulla vitae facilisis tempor. Cras et pretium augue. Maecenas viverra risus nibh, vitae faucibus massa fermentum vitae. Donec eget urna nec nisl pretium maximus. ");
 
@@ -246,7 +244,7 @@ public class MatcherImplTest {
 
             Mockito.when(resumeRepository.resumesOnCriteria(Mockito.any())).thenReturn(initialize());
             resumeMatcher = new MatcherImpl(cruncher, resumeRepository, jobRepository);
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setTitle("ipsum");
             job.setDescription("fermentum ipsum dolor sit amet, fermentum adipiscing elit. fermentum fermentum quis odio ut neque venenatis iaculis nec eu diam. fermentum Sed a libero odio. Suspendisse iaculis velit nec sodales fermentum. Suspendisse potenti. Donec ultricies nulla vitae facilisis tempor. Cras et pretium augue. Maecenas viverra risus nibh, vitae faucibus massa fermentum vitae. Donec eget urna nec nisl pretium maximus. ");
 
@@ -264,14 +262,14 @@ public class MatcherImplTest {
         @Mock
         private ResumeRepository resumeRepository;
         @Mock
-        private JobRepository jobRepository;
+        private JobDocumentRepository jobRepository;
 
         private CruncherImpl cruncher;
 
         private MatcherImpl resumeMatcher;
 
         private List<Resume> resumes;
-        private List<Job> jobs;
+        private List<JobMongo> jobs;
 
         // Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         // Aenean quis odio ut neque venenatis iaculis nec eu diam.
@@ -323,7 +321,7 @@ public class MatcherImplTest {
             resumes.add(resume2);
             resumes.add(resume3);
 
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             ExpressionCruncherMetaData dataJob1 = new ExpressionCruncherMetaData();
             dataJob1.addField("sodales", new MetaDataField(1));
             dataJob1.addField("facilisis", new MetaDataField(1));
@@ -338,7 +336,7 @@ public class MatcherImplTest {
             job1.setTitleMetaData(metaData1);
             job1.setJobId("job1");
 
-            Job job2 = new Job();
+            JobMongo job2 = new JobMongo();
             ExpressionCruncherMetaData dataJob2 = new ExpressionCruncherMetaData();
             dataJob2.addField("sodales", new MetaDataField(1));
             dataJob2.addField("facilisis", new MetaDataField(1));
@@ -353,7 +351,7 @@ public class MatcherImplTest {
             job2.setTitleMetaData(metaData2);
             job2.setJobId("job2");
 
-            Job job3 = new Job();
+            JobMongo job3 = new JobMongo();
             ExpressionCruncherMetaData dataJob3 = new ExpressionCruncherMetaData();
             dataJob3.addField("sodales", new MetaDataField(1));
             dataJob3.addField("facilisis", new MetaDataField(1));
@@ -421,7 +419,7 @@ public class MatcherImplTest {
             metaDataResume.put(cruncher.getCruncherName(), metaData);
             resume.setMetaData(metaDataResume);
 
-            List<Job> result = resumeMatcher.match(resume);
+            List<JobMongo> result = resumeMatcher.match(resume);
             assertEquals(2, result.size());
             assertEquals("job3", result.get(0).getJobId());
             assertEquals("job1", result.get(1).getJobId());

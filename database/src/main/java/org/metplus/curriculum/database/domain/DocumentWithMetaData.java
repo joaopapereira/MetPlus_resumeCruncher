@@ -1,7 +1,10 @@
 package org.metplus.curriculum.database.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.metplus.curriculum.domain.JobCruncherData;
+import org.metplus.curriculum.domain.JobCruncherDataMap;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.query.Meta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +17,18 @@ public class DocumentWithMetaData extends AbstractDocument {
 
     @Field
     private Map<String, MetaData> metaData;
+
+    public DocumentWithMetaData(){
+        super();
+    }
+
+    public DocumentWithMetaData(JobCruncherData jobCruncherData) {
+        Map<String, MetaData> data = new HashMap<>();
+        for(Map.Entry<String, JobCruncherDataMap> entry: jobCruncherData.getCruncherData().entrySet()) {
+            data.put(entry.getKey(), new MetaData(entry.getValue()));
+        }
+        this.setMetaData(data);
+    }
 
     /**
      * Retrieve all the meta data of the specific resume
@@ -54,5 +69,15 @@ public class DocumentWithMetaData extends AbstractDocument {
         if(getMetaData() == null)
             return null;
         return getMetaData().get(cruncherName);
+    }
+
+    public JobCruncherData toCruncherData() {
+        JobCruncherData cruncherData = new JobCruncherData();
+        Map<String, JobCruncherDataMap> metaData = new HashMap<>();
+        for(Map.Entry<String, MetaData> data: getMetaData().entrySet()) {
+            metaData.put(data.getKey(), data.getValue().toJobCruncherMetaData());
+        }
+        cruncherData.setCruncherData(metaData);
+        return cruncherData;
     }
 }

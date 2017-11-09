@@ -5,10 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.metplus.curriculum.database.domain.DocumentWithMetaData;
-import org.metplus.curriculum.database.domain.Job;
+import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.MetaData;
 import org.metplus.curriculum.database.domain.Resume;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.metplus.curriculum.test.BeforeAfterInterface;
 import org.metplus.curriculum.test.BeforeAfterRule;
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class MatcherImplTest {
     public static class Base implements BeforeAfterInterface {
 
-        protected JobRepository jobRespository = mock(JobRepository.class);
+        protected JobDocumentRepository jobRespository = mock(JobDocumentRepository.class);
         protected ResumeRepository resumeRespository = mock(ResumeRepository.class);
 
         @Rule
@@ -40,8 +40,8 @@ public class MatcherImplTest {
         protected CruncherImpl cruncher;
         protected Resume resumeCategoryOneAndTwo;
         protected Resume resumeCategoryOne;
-        protected Job jobTitleCat1DescCat2;
-        protected Job jobTitleCat3DescCat4;
+        protected JobMongo jobTitleCat1DescCat2;
+        protected JobMongo jobTitleCat3DescCat4;
 
         @Override
         public void before() {
@@ -56,14 +56,14 @@ public class MatcherImplTest {
             categories.add("cat_2_job");
             resumeCategoryOneAndTwo = createResume(categories);
 
-            jobTitleCat1DescCat2 = new Job();
+            jobTitleCat1DescCat2 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_1_job", 1);
             NaiveBayesMetaData descriptionData = new NaiveBayesMetaData();
             descriptionData.addCategory("cat_2_job", 1);
             setJobMetaData(jobTitleCat1DescCat2, titleData, descriptionData);
 
-            jobTitleCat3DescCat4 = new Job();
+            jobTitleCat3DescCat4 = new JobMongo();
             titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_3_job", 1);
             descriptionData = new NaiveBayesMetaData();
@@ -76,7 +76,7 @@ public class MatcherImplTest {
             reset(jobRespository, resumeRespository);
         }
 
-        protected void setJobMetaData(Job job,
+        protected void setJobMetaData(JobMongo job,
                                       NaiveBayesMetaData titleMetaData,
                                       NaiveBayesMetaData descriptionMetaData) {
             Map<String, MetaData> allDescriptionMetaData = new HashMap<>();
@@ -120,15 +120,15 @@ public class MatcherImplTest {
 
         @Test
         public void resumeWithTwoCategory_shouldMatchOneJobWith387StarRating() {
-            List<Job> allJobs = new ArrayList<>();
+            List<JobMongo> allJobs = new ArrayList<>();
             allJobs.add(jobTitleCat1DescCat2);
             when(jobRespository.findAll()).thenReturn(allJobs);
 
 
-            List<Job> expectedResults = new ArrayList<>();
+            List<JobMongo> expectedResults = new ArrayList<>();
             expectedResults.add(jobTitleCat1DescCat2);
 
-            List<Job> results = matcher.match(resumeCategoryOneAndTwo);
+            List<JobMongo> results = matcher.match(resumeCategoryOneAndTwo);
 
             assertEquals(expectedResults, results);
             assertEquals(3.87, results.get(0).getStarRating(), 0.01);
@@ -137,11 +137,11 @@ public class MatcherImplTest {
         @Test
         public void resumeWithTwoCategory_shouldMatchNoJob() {
 
-            List<Job> allJobs = new ArrayList<>();
+            List<JobMongo> allJobs = new ArrayList<>();
             allJobs.add(jobTitleCat3DescCat4);
             when(jobRespository.findAll()).thenReturn(allJobs);
 
-            List<Job> expectedResults = new ArrayList<>();
+            List<JobMongo> expectedResults = new ArrayList<>();
 
             assertEquals(expectedResults, matcher.match(resumeCategoryOneAndTwo));
         }
@@ -157,18 +157,18 @@ public class MatcherImplTest {
             resumeCategories.add("cat_3_job");
             Resume resume = createResume(resumeCategories);
 
-            List<Job> allJobs = new ArrayList<>();
+            List<JobMongo> allJobs = new ArrayList<>();
             allJobs.add(jobTitleCat3DescCat4);
             when(jobRespository.findAll()).thenReturn(allJobs);
 
-            List<Job> expectedResults = new ArrayList<>();
+            List<JobMongo> expectedResults = new ArrayList<>();
 
             assertEquals(expectedResults, matcher.match(resume));
         }
 
         @Test
         public void resumeWith1CategoryAndJobCategoryInDescriptionSixMatch_shouldMatchNoJob() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_2_job", 1);
             titleData.addCategory("cat_3_job", .9);
@@ -179,18 +179,18 @@ public class MatcherImplTest {
             descriptionData.addCategory("cat_1_job", .7);
             setJobMetaData(job1, titleData, descriptionData);
 
-            List<Job> allJobs = new ArrayList<>();
+            List<JobMongo> allJobs = new ArrayList<>();
             allJobs.add(job1);
             when(jobRespository.findAll()).thenReturn(allJobs);
 
-            List<Job> expectedResults = new ArrayList<>();
+            List<JobMongo> expectedResults = new ArrayList<>();
 
             assertEquals(expectedResults, matcher.match(resumeCategoryOne));
         }
 
         @Test
         public void resumeWith1CategoryAndJobCategoryInTitleThirdMatch_shouldMatchNoJob() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_2_job", 1);
             titleData.addCategory("cat_3_job", .9);
@@ -201,29 +201,29 @@ public class MatcherImplTest {
             descriptionData.addCategory("cat_6_job", .8);
             setJobMetaData(job1, titleData, descriptionData);
 
-            List<Job> allJobs = new ArrayList<>();
+            List<JobMongo> allJobs = new ArrayList<>();
             allJobs.add(job1);
             when(jobRespository.findAll()).thenReturn(allJobs);
 
-            List<Job> expectedResults = new ArrayList<>();
+            List<JobMongo> expectedResults = new ArrayList<>();
 
             assertEquals(expectedResults, matcher.match(resumeCategoryOne));
         }
 
         @Test
         public void resumeWith1CategoryTwiceWith2SuffixAndJobCategoryInTitleThirdMatch_shouldMatchJobWith258StarRating() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_1_job", .7);
             NaiveBayesMetaData descriptionData = new NaiveBayesMetaData();
             descriptionData.addCategory("cat_4_job", 1);
             setJobMetaData(job1, titleData, descriptionData);
 
-            List<Job> allJobs = new ArrayList<>();
+            List<JobMongo> allJobs = new ArrayList<>();
             allJobs.add(job1);
             when(jobRespository.findAll()).thenReturn(allJobs);
 
-            List<Job> expectedResults = new ArrayList<>();
+            List<JobMongo> expectedResults = new ArrayList<>();
             expectedResults.add(job1);
 
 
@@ -246,7 +246,7 @@ public class MatcherImplTest {
 
         @Test
         public void jobWithoutCategories_shouldReturnEmptyList() {
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             assertEquals(0, matcher.matchInverse(job).size());
         }
 
@@ -300,7 +300,7 @@ public class MatcherImplTest {
 
         @Test
         public void jobWithCategory1In4thPositionInDescriptionAndResumeWithCategory1_shouldMatchNoResume() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_2_job", 1);
             titleData.addCategory("cat_3_job", .9);
@@ -322,7 +322,7 @@ public class MatcherImplTest {
 
         @Test
         public void jobWithCat1In3rdPositionInTitleAndResumeWithCategory1_shoudMatchNoResume() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_2_job", 1);
             titleData.addCategory("cat_3_job", .9);
@@ -344,7 +344,7 @@ public class MatcherImplTest {
 
         @Test
         public void jobWithCat1In3rdPositionWithRepeatedCat2InTitleAndResumeWithCategory1_shoudMatchResume() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_2_job", 1);
             titleData.addCategory("cat_2_resume", .9);
@@ -369,7 +369,7 @@ public class MatcherImplTest {
 
         @Test
         public void jobCategory1DuplicatedAndResumeWithCategory1_shoudMatchResume() {
-            Job job1 = new Job();
+            JobMongo job1 = new JobMongo();
             NaiveBayesMetaData titleData = new NaiveBayesMetaData();
             titleData.addCategory("cat_2_job", 1);
             titleData.addCategory("cat_2_resume", .9);
@@ -412,7 +412,7 @@ public class MatcherImplTest {
 
         @Test
         public void jobWithoutCategories_shouldReturn0() {
-            assertEquals(0, matcher.matchSimilarity(resumeCategoryOne, new Job()), 1);
+            assertEquals(0, matcher.matchSimilarity(resumeCategoryOne, new JobMongo()), 1);
         }
 
         @Test

@@ -3,14 +3,13 @@ package org.metplus.curriculum.cruncher.expressionCruncher;
 import org.metplus.curriculum.cruncher.CruncherMetaData;
 import org.metplus.curriculum.cruncher.Matcher;
 import org.metplus.curriculum.database.domain.DocumentWithMetaData;
-import org.metplus.curriculum.database.domain.Job;
+import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.MetaDataField;
 import org.metplus.curriculum.database.domain.Resume;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -18,18 +17,18 @@ import java.util.*;
  * Created by Joao on 3/21/16.
  * Class that implement the Matcher for Resumes using the Expression Cruncher
  */
-public class MatcherImpl implements Matcher<Resume, Job> {
+public class MatcherImpl implements Matcher<Resume, JobMongo> {
     private static Logger logger = LoggerFactory.getLogger(MatcherImpl.class);
     private ResumeRepository resumeRepository;
     private CruncherImpl cruncher;
-    private JobRepository jobRepository;
+    private JobDocumentRepository jobRepository;
 
     /**
      * Class constructor
      * @param cruncher Cruncher implementation
      * @param resumeRepository Resume repository to retrieve the resumes
      */
-    public MatcherImpl(CruncherImpl cruncher, ResumeRepository resumeRepository, JobRepository jobRepository) {
+    public MatcherImpl(CruncherImpl cruncher, ResumeRepository resumeRepository, JobDocumentRepository jobRepository) {
         this.cruncher = cruncher;
         this.resumeRepository = resumeRepository;
         this.jobRepository = jobRepository;
@@ -54,7 +53,7 @@ public class MatcherImpl implements Matcher<Resume, Job> {
     }
 
     @Override
-    public List<Resume> matchInverse(Job job) {
+    public List<Resume> matchInverse(JobMongo job) {
         logger.trace("match(" + job + ")");
         String titleExpression;
         String descriptionExpression;
@@ -104,7 +103,7 @@ public class MatcherImpl implements Matcher<Resume, Job> {
     }
 
     @Override
-    public double matchSimilarity(Resume resume, Job job) {
+    public double matchSimilarity(Resume resume, JobMongo job) {
         logger.trace("match(" + job + ")");
         String titleExpression;
         String descriptionExpression;
@@ -140,27 +139,27 @@ public class MatcherImpl implements Matcher<Resume, Job> {
     }
 
     @Override
-    public List<Job> match(Resume resume) {
+    public List<JobMongo> match(Resume resume) {
         CruncherMetaData metadata = resume.getCruncherData(cruncher.getCruncherName());
         logger.trace("match(" + metadata + ")");
         // Retrieve the meta data into a good object type
         ExpressionCruncherMetaData auxMetaData = (ExpressionCruncherMetaData)metadata;
-        List<Job> result = new ArrayList<>();
+        List<JobMongo> result = new ArrayList<>();
         if(auxMetaData == null) {
             logger.error("Invalid metadata was passed to the function: ");
             return null;
         }
         // Iterate over all the jobs
-        for(Job job: jobRepository.findAll()) {
+        for(JobMongo job: jobRepository.findAll()) {
             logger.debug("Checking viability of the job: " + job.getJobId());
             ExpressionCruncherMetaData jobMetaData = (ExpressionCruncherMetaData)job.getTitleCruncherData(getCruncherName());
             // Check if the most common denominator between the job and the meta data is the same
             if(jobMetaData == null || jobMetaData.getMostReferedExpression() == null) {
-                logger.error("Job with id: " + job.getJobId() + " do not have all the information");
+                logger.error("JobMongo with id: " + job.getJobId() + " do not have all the information");
                 continue;
             }
             if(jobMetaData.getMostReferedExpression().equals(auxMetaData.getMostReferedExpression())) {
-                logger.debug("Job match with metadata");
+                logger.debug("JobMongo match with metadata");
                 result.add(job);
             }
         }
@@ -256,15 +255,15 @@ public class MatcherImpl implements Matcher<Resume, Job> {
      * Class that will compare the fields on the resume meta data
      * to order them by most common expression
      */
-    private class JobSorter extends EntitySorter<Job> {
+    private class JobSorter extends EntitySorter<JobMongo> {
 
         @Override
-        protected String getFieldName(Job obj) {
+        protected String getFieldName(JobMongo obj) {
             return ((ExpressionCruncherMetaData)obj.getTitleCruncherData(cruncher.getCruncherName()))
                     .getMostReferedExpression();
         }
         @Override
-        protected int getFieldValue(Job obj, String fieldName) {
+        protected int getFieldValue(JobMongo obj, String fieldName) {
             return (Integer) obj.getTitleCruncherData(cruncher.getCruncherName())
                     .getFields().get(fieldName).getData();
         }

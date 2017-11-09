@@ -9,10 +9,10 @@ import org.metplus.curriculum.cruncher.Matcher;
 import org.metplus.curriculum.cruncher.MatcherList;
 import org.metplus.curriculum.database.config.SpringMongoConfig;
 import org.metplus.curriculum.database.domain.DocumentWithMetaData;
-import org.metplus.curriculum.database.domain.Job;
+import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.MetaData;
 import org.metplus.curriculum.database.domain.Resume;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.metplus.curriculum.process.ResumeCruncher;
 import org.metplus.curriculum.security.services.TokenService;
@@ -74,7 +74,7 @@ public class ResumeControllerTest {
         @Autowired
         TokenService tokenService;
         @MockBean
-        JobRepository jobRepository;
+        JobDocumentRepository jobRepository;
         @MockBean
         ResumeRepository resumeRepository;
         @MockBean
@@ -206,7 +206,7 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("jobId").description("Job Identifier to retrieve the Resumes that match the job")
+                                    parameterWithName("jobId").description("JobMongo Identifier to retrieve the Resumes that match the job")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -225,16 +225,16 @@ public class ResumeControllerTest {
 
             Matcher matcher1 = Mockito.mock(Matcher.class);
             Mockito.when(matcher1.getCruncherName()).thenReturn("matcher1");
-            Mockito.when(matcher1.match(Mockito.any(Job.class))).thenReturn(new ArrayList<>());
+            Mockito.when(matcher1.match(Mockito.any(JobMongo.class))).thenReturn(new ArrayList<>());
             Matcher matcher2 = Mockito.mock(Matcher.class);
             Mockito.when(matcher2.getCruncherName()).thenReturn("matcher2");
-            Mockito.when(matcher2.match(Mockito.any(Job.class))).thenReturn(new ArrayList<>());
+            Mockito.when(matcher2.match(Mockito.any(JobMongo.class))).thenReturn(new ArrayList<>());
 
             List<Matcher> allMatchers = new ArrayList<>();
             allMatchers.add(matcher1);
             allMatchers.add(matcher2);
             Mockito.when(matcherList.getMatchers()).thenReturn(allMatchers);
-            Mockito.when(jobRepository.findByJobId("1")).thenReturn(new Job());
+            Mockito.when(jobRepository.findByJobId("1")).thenReturn(new JobMongo());
 
             MockHttpServletResponse response = matchWithJob("/api/v1/resume/match/{jobId}", 1)
                     .andExpect(status().isOk())
@@ -242,7 +242,7 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("jobId").description("Job Identifier to retrieve the Resumes that match the job")
+                                    parameterWithName("jobId").description("JobMongo Identifier to retrieve the Resumes that match the job")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -265,7 +265,7 @@ public class ResumeControllerTest {
             metaData1.put("matcher2", new MetaData());
             titleMetaData.setMetaData(metaData1);
             descriptionMetaData.setMetaData(metaData1);
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setTitleMetaData(titleMetaData);
             job.setDescriptionMetaData(descriptionMetaData);
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(job);
@@ -287,10 +287,10 @@ public class ResumeControllerTest {
 
             Matcher matcher1 = Mockito.mock(Matcher.class);
             Mockito.when(matcher1.getCruncherName()).thenReturn("matcher1");
-            Mockito.when(matcher1.matchInverse(Mockito.any(Job.class))).thenReturn(matcher1Resumes);
+            Mockito.when(matcher1.matchInverse(Mockito.any(JobMongo.class))).thenReturn(matcher1Resumes);
             Matcher matcher2 = Mockito.mock(Matcher.class);
             Mockito.when(matcher2.getCruncherName()).thenReturn("matcher2");
-            Mockito.when(matcher2.matchInverse(Mockito.any(Job.class))).thenReturn(matcher2Resumes);
+            Mockito.when(matcher2.matchInverse(Mockito.any(JobMongo.class))).thenReturn(matcher2Resumes);
 
             List<Matcher> allMatchers = new ArrayList<>();
             allMatchers.add(matcher1);
@@ -303,7 +303,7 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("jobId").description("Job Identifier to retrieve the Resumes that match the job")
+                                    parameterWithName("jobId").description("JobMongo Identifier to retrieve the Resumes that match the job")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -320,8 +320,8 @@ public class ResumeControllerTest {
                     .andExpect(jsonPath("$.resumes.matcher2[1]", is("2")))
                     .andReturn().getResponse();
             Mockito.verify(jobRepository).findByJobId("1");
-            Mockito.verify(matcher1).matchInverse(Mockito.any(Job.class));
-            Mockito.verify(matcher2).matchInverse(Mockito.any(Job.class));
+            Mockito.verify(matcher1).matchInverse(Mockito.any(JobMongo.class));
+            Mockito.verify(matcher2).matchInverse(Mockito.any(JobMongo.class));
         }
 
         private ResultActions matchWithJob(String urlTemplate, int jobId) throws Exception {
@@ -345,7 +345,7 @@ public class ResumeControllerTest {
                                     requestHeaders(headerWithName("X-Auth-Token")
                                             .description("Authentication token retrieved from the authentication")),
                                     pathParameters(
-                                            parameterWithName("jobId").description("Job Identifier to retrieve the Resumes that match the job")
+                                            parameterWithName("jobId").description("JobMongo Identifier to retrieve the Resumes that match the job")
                                     ),
                                     responseFields(
                                             fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -362,16 +362,16 @@ public class ResumeControllerTest {
         public void noMatches() throws Exception {
             Matcher matcher1 = Mockito.mock(Matcher.class);
             Mockito.when(matcher1.getCruncherName()).thenReturn("matcher1");
-            Mockito.when(matcher1.match(Mockito.any(Job.class))).thenReturn(new ArrayList<>());
+            Mockito.when(matcher1.match(Mockito.any(JobMongo.class))).thenReturn(new ArrayList<>());
             Matcher matcher2 = Mockito.mock(Matcher.class);
             Mockito.when(matcher2.getCruncherName()).thenReturn("matcher2");
-            Mockito.when(matcher2.match(Mockito.any(Job.class))).thenReturn(new ArrayList<>());
+            Mockito.when(matcher2.match(Mockito.any(JobMongo.class))).thenReturn(new ArrayList<>());
 
             List<Matcher> allMatchers = new ArrayList<>();
             allMatchers.add(matcher1);
             allMatchers.add(matcher2);
             Mockito.when(matcherList.getMatchers()).thenReturn(allMatchers);
-            Mockito.when(jobRepository.findByJobId("1")).thenReturn(new Job());
+            Mockito.when(jobRepository.findByJobId("1")).thenReturn(new JobMongo());
 
             MockHttpServletResponse response = matchWithJob("/api/v2/resume/match/{jobId}", 1)
                     .andExpect(status().isOk())
@@ -379,7 +379,7 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("jobId").description("Job Identifier to retrieve the Resumes that match the job")
+                                    parameterWithName("jobId").description("JobMongo Identifier to retrieve the Resumes that match the job")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -402,7 +402,7 @@ public class ResumeControllerTest {
             metaData1.put("matcher2", new MetaData());
             titleMetaData.setMetaData(metaData1);
             descriptionMetaData.setMetaData(metaData1);
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setTitleMetaData(titleMetaData);
             job.setDescriptionMetaData(descriptionMetaData);
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(job);
@@ -424,10 +424,10 @@ public class ResumeControllerTest {
 
             Matcher matcher1 = Mockito.mock(Matcher.class);
             Mockito.when(matcher1.getCruncherName()).thenReturn("matcher1");
-            Mockito.when(matcher1.matchInverse(Mockito.any(Job.class))).thenReturn(matcher1Resumes);
+            Mockito.when(matcher1.matchInverse(Mockito.any(JobMongo.class))).thenReturn(matcher1Resumes);
             Matcher matcher2 = Mockito.mock(Matcher.class);
             Mockito.when(matcher2.getCruncherName()).thenReturn("matcher2");
-            Mockito.when(matcher2.matchInverse(Mockito.any(Job.class))).thenReturn(matcher2Resumes);
+            Mockito.when(matcher2.matchInverse(Mockito.any(JobMongo.class))).thenReturn(matcher2Resumes);
 
             List<Matcher> allMatchers = new ArrayList<>();
             allMatchers.add(matcher1);
@@ -440,7 +440,7 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("jobId").description("Job Identifier to retrieve the Resumes that match the job")
+                                    parameterWithName("jobId").description("JobMongo Identifier to retrieve the Resumes that match the job")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -461,8 +461,8 @@ public class ResumeControllerTest {
                     .andExpect(jsonPath("$.resumes.matcher2[1].stars", is(1.2)))
                     .andReturn().getResponse();
             Mockito.verify(jobRepository).findByJobId("1");
-            Mockito.verify(matcher1).matchInverse(Mockito.any(Job.class));
-            Mockito.verify(matcher2).matchInverse(Mockito.any(Job.class));
+            Mockito.verify(matcher1).matchInverse(Mockito.any(JobMongo.class));
+            Mockito.verify(matcher2).matchInverse(Mockito.any(JobMongo.class));
         }
 
         private ResultActions matchWithJob(String urlTemplate, int jobId) throws Exception {
@@ -487,8 +487,8 @@ public class ResumeControllerTest {
                                     requestHeaders(headerWithName("X-Auth-Token")
                                             .description("Authentication token retrieved from the authentication")),
                                     pathParameters(
-                                            parameterWithName("resumeId").description("Resume Identifier to compare against the Job"),
-                                            parameterWithName("jobId").description("Job Identifier compare against the Resume")
+                                            parameterWithName("resumeId").description("Resume Identifier to compare against the JobMongo"),
+                                            parameterWithName("jobId").description("JobMongo Identifier compare against the Resume")
                                     ),
                                     responseFields(
                                             fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -503,7 +503,7 @@ public class ResumeControllerTest {
 
         @Test
         public void cannotFindResume() throws Exception {
-            Mockito.when(jobRepository.findByJobId("13")).thenReturn(new Job());
+            Mockito.when(jobRepository.findByJobId("13")).thenReturn(new JobMongo());
             Mockito.when(resumeRepository.findByUserId("12")).thenReturn(null);
 
             MockHttpServletResponse response = compareResumeWithJob("/api/v2/resume/{resumeId}/compare/{jobId}", "12", "13")
@@ -512,8 +512,8 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("resumeId").description("Resume Identifier to compare against the Job"),
-                                    parameterWithName("jobId").description("Job Identifier compare against the Resume")
+                                    parameterWithName("resumeId").description("Resume Identifier to compare against the JobMongo"),
+                                    parameterWithName("jobId").description("JobMongo Identifier compare against the Resume")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),
@@ -528,7 +528,7 @@ public class ResumeControllerTest {
 
         @Test
         public void compareResult() throws Exception {
-            Job job = new Job();
+            JobMongo job = new JobMongo();
             job.setJobId("13");
             Resume resume = new Resume("12");
 
@@ -553,8 +553,8 @@ public class ResumeControllerTest {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             pathParameters(
-                                    parameterWithName("resumeId").description("Resume Identifier to compare against the Job"),
-                                    parameterWithName("jobId").description("Job Identifier compare against the Resume")
+                                    parameterWithName("resumeId").description("Resume Identifier to compare against the JobMongo"),
+                                    parameterWithName("jobId").description("JobMongo Identifier compare against the Resume")
                             ),
                             responseFields(
                                     fieldWithPath("resultCode").type(ResultCodes.class).description("Result code"),

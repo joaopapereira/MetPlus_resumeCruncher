@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * Class that represents all the Resumes that
- * match a specific Job information
+ * match a specific JobMongo information
  */
 public class ResumeMatchAnswer<T> extends GenericAnswer {
 

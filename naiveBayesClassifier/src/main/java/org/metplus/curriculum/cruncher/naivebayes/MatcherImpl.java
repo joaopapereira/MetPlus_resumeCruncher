@@ -2,7 +2,7 @@ package org.metplus.curriculum.cruncher.naivebayes;
 
 import org.metplus.curriculum.cruncher.Matcher;
 import org.metplus.curriculum.database.domain.*;
-import org.metplus.curriculum.database.repository.JobRepository;
+import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 
 import java.util.*;
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
-public class MatcherImpl implements Matcher<Resume, Job> {
+public class MatcherImpl implements Matcher<Resume, JobMongo> {
 
-    private JobRepository jobRepository;
+    private JobDocumentRepository jobRepository;
     private CruncherImpl cruncher;
     private ResumeRepository resumeRepository;
     private final Double[][] matchPoints = {
@@ -25,22 +25,22 @@ public class MatcherImpl implements Matcher<Resume, Job> {
     private static final Double maxPoints = 1600. + 800. + 400. + 200. + 100.;
     private static final int MAX_NUMBER_CATEGORIES = 5;
 
-    MatcherImpl(CruncherImpl cruncher, JobRepository jobRepository, ResumeRepository resumeRepository) {
+    MatcherImpl(CruncherImpl cruncher, JobDocumentRepository jobRepository, ResumeRepository resumeRepository) {
         this.jobRepository = jobRepository;
         this.cruncher = cruncher;
         this.resumeRepository = resumeRepository;
     }
 
     @Override
-    public List<Job> match(Resume resume) {
-        List<Job> result = new ArrayList<>();
+    public List<JobMongo> match(Resume resume) {
+        List<JobMongo> result = new ArrayList<>();
         if (!isResumeValid(resume))
             return result;
 
         List<String> resumeCategories = getCategoryListFromMetaData(resume, MAX_NUMBER_CATEGORIES);
 
-        List<Job> allJobs = (List<Job>) jobRepository.findAll();
-        for (Job job : allJobs) {
+        List<JobMongo> allJobs = (List<JobMongo>) jobRepository.findAll();
+        for (JobMongo job : allJobs) {
             List<String> jobCategories = getJobCategories(job);
 
             double starRating = calculateStarRating(resumeCategories, jobCategories);
@@ -54,7 +54,7 @@ public class MatcherImpl implements Matcher<Resume, Job> {
     }
 
     @Override
-    public List<Resume> matchInverse(Job job) {
+    public List<Resume> matchInverse(JobMongo job) {
         List<Resume> results = new ArrayList<>();
         if (!isJobValid(job))
             return results;
@@ -81,7 +81,7 @@ public class MatcherImpl implements Matcher<Resume, Job> {
     }
 
     @Override
-    public double matchSimilarity(Resume resume, Job job) {
+    public double matchSimilarity(Resume resume, JobMongo job) {
         if(!isResumeValid(resume) || !isJobValid(job))
             return 0;
 
@@ -91,7 +91,7 @@ public class MatcherImpl implements Matcher<Resume, Job> {
         return calculateStarRating(resumeCategories, jobCategories);
     }
 
-    private List<String> getJobCategories(Job job) {
+    private List<String> getJobCategories(JobMongo job) {
         List<String> jobCategories = getCategoryListFromMetaData(job.getTitleMetaData(), 2);
         jobCategories.addAll(getCategoryListFromMetaData(job.getDescriptionMetaData(),
                 MAX_NUMBER_CATEGORIES - jobCategories.size()));
@@ -117,7 +117,7 @@ public class MatcherImpl implements Matcher<Resume, Job> {
                         .getFields().size() == 0);
     }
 
-    private boolean isJobValid(Job job) {
+    private boolean isJobValid(JobMongo job) {
         return !(job == null
                 || !job.haveCruncherData(cruncher.getCruncherName()));
     }

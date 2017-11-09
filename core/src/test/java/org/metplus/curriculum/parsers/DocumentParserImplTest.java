@@ -38,7 +38,7 @@ public class DocumentParserImplTest {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         stream.write(ByteStreams.toByteArray(getClass().getClassLoader().getResourceAsStream("line_with_bold.pdf")));
         DocumentParserImpl a = new DocumentParserImpl(stream);
-        System.out.println(a.getDocument());
+
         assertTrue(a.getDocument().contains("My String bamm"));
     }
 
