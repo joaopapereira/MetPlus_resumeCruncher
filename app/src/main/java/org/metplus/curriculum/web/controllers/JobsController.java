@@ -2,6 +2,7 @@ package org.metplus.curriculum.web.controllers;
 
 
 import org.apache.http.HttpResponse;
+import org.jetbrains.annotations.NotNull;
 import org.metplus.curriculum.domain.job.CreateJob;
 import org.metplus.curriculum.web.answers.GenericAnswer;
 import org.metplus.curriculum.web.answers.ResultCodes;
@@ -21,9 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class JobsController {
     private static Logger logger = LoggerFactory.getLogger(JobsController.class);
 
-    private final CreateJob<ResponseEntity<GenericAnswer>> createJob;
+    private final CreateJob createJob;
 
-    public JobsController(CreateJob<ResponseEntity<GenericAnswer>> createJob) {
+    JobsController(CreateJob createJob) {
         this.createJob = createJob;
     }
 
@@ -39,7 +40,15 @@ public class JobsController {
         logger.trace("create(" + id + ", " + title + ", " + description + ")");
         return createJob.create(id, title, description, new CreateJob.ResultHandler<ResponseEntity<GenericAnswer>>() {
             @Override
-            public ResponseEntity<GenericAnswer> jobExists(String jobId) {
+            public ResponseEntity<GenericAnswer> fatalError(@NotNull String jobId) {
+                GenericAnswer answer = new GenericAnswer();
+                answer.setResultCode(ResultCodes.FATAL_ERROR);
+                answer.setMessage("Fatal error while processing Job with id '" + jobId + "'");
+                return ResponseEntity.ok(answer);
+            }
+
+            @Override
+            public ResponseEntity<GenericAnswer> jobExists(@NotNull String jobId) {
                 GenericAnswer answer = new GenericAnswer();
                 answer.setResultCode(ResultCodes.JOB_ID_EXISTS);
                 answer.setMessage("Job with id '" + jobId + "' already exists");

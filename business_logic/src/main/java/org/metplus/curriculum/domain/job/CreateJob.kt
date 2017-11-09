@@ -1,7 +1,5 @@
 package org.metplus.curriculum.domain.job
 
-import org.metplus.curriculum.domain.Job
-
 class CreateJob(private val jobRepository: JobRepository) {
 
     fun <T> create(jobId: String, title: String, description: String, resultHandler: ResultHandler<T>): T {

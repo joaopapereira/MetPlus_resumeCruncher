@@ -12,7 +12,7 @@ import java.util.HashMap
  * Class that can be extended when we need a document
  * with meta data
  */
-data class DocumentWithMetaData(
+class DocumentWithMetaData(
         @Field val metaData: Map<String, MetaData> = mapOf()
 ) : AbstractDocument() {
     /**
@@ -22,7 +22,7 @@ data class DocumentWithMetaData(
      */
     @JsonIgnore
     fun isCruncherDataAvailable(cruncherName: String): Boolean {
-        return if (metaData == null) false else metaData.containsKey(cruncherName)
+        return metaData.containsKey(cruncherName)
     }
 
     /**
@@ -31,6 +31,6 @@ data class DocumentWithMetaData(
      * @return Cruncher meta data
      */
     fun getCruncherData(cruncherName: String): MetaData? {
-        return if (metaData == null) null else metaData[cruncherName]
+        return metaData[cruncherName]
     }
 }

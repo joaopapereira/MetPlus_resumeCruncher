@@ -1,5 +1,7 @@
 package org.metplus.curriculum.domain
 
+import org.metplus.curriculum.domain.job.Job
+
 object DomainFactories {
     fun buildJob(): Job {
         return Job(

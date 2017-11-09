@@ -11,6 +11,7 @@ buildscript {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         url 'https://repo.spring.io/release'
@@ -31,5 +32,6 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile("junit:junit:4.12")
     testCompile project(path: ':business_logic', configuration: 'testArtifacts')
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

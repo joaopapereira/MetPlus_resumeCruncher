@@ -47,44 +47,6 @@ public class OldJobsController {
     }
 
     @RequestMapping(value = {
-            BaseController.baseUrlApiv1 + "/job/create",
-            BaseController.baseUrlApiv2 + "/job/create",
-            BaseController.baseUrlApivTesting + "/job/create"},
-            method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<GenericAnswer> create(
-            @RequestParam("jobId") String id,
-            @RequestParam("title") String title,
-            @RequestParam("description") String description) {
-        logger.trace("create(" + id + ", " + title + ", " + description + ")");
-        GenericAnswer answer = new GenericAnswer();
-        JobMongo job = jobRepository.findByJobId(id);
-        if (job != null && job.getJobId().equals(id)) {
-            logger.error("JobMongo with job id '" + id + "' already exist");
-            answer.setResultCode(ResultCodes.JOB_ID_EXISTS);
-            answer.setMessage("Trying to create job that already exists");
-        } else {
-            logger.debug("Going to create the job");
-            job = new JobMongo();
-            job.setJobId(id);
-            job.setTitle(title);
-            job.setDescription(description);
-            try {
-                jobRepository.save(job);
-                jobCruncher.addWork(job);
-                logger.debug("JobMongo added successfully");
-                answer.setResultCode(ResultCodes.SUCCESS);
-                answer.setMessage("JobMongo added successfully");
-            } catch (Exception exp) {
-                logger.error("Unable to create the job '" + job + "' due to: " + exp.getMessage());
-                answer.setResultCode(ResultCodes.FATAL_ERROR);
-                answer.setMessage("Unable to create the job '" + job + "' due to: " + exp.getMessage());
-            }
-        }
-        return new ResponseEntity<>(answer, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = {
             BaseController.baseUrlApiv1 + "/job/{jobId}/update",
             BaseController.baseUrlApiv2 + "/job/{jobId}/update",
             BaseController.baseUrlApivTesting + "/job/{jobId}/update"},

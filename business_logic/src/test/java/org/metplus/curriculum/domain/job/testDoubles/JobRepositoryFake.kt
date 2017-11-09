@@ -1,6 +1,6 @@
 package org.metplus.curriculum.domain.job.testDoubles
 
-import org.metplus.curriculum.domain.Job
+import org.metplus.curriculum.domain.job.Job
 import org.metplus.curriculum.domain.job.JobRepository
 
 class JobRepositoryFake : JobRepository {

@@ -92,6 +92,25 @@ After that just run the following command
 
 ```> SPRING_ACTIVE_PROFILE="unit-test" ./gradlew check ```
 
+# Deployment with Dokku
+
+1. Create the Mongo Database
+`ssh dokku@agileventures.azure mongo:create metplus-cruncher-production`
+
+1. Create the Application
+`ssh dokku@agileventures.azure apps:create metplus-cruncher-production`
+
+1. Link Mongo Database with Application
+`ssh dokku@agileventures.azure mongo:link metplus-cruncher-production metplus-cruncher-production`
+
+1. Configure application
+`ssh dokku@agileventures.azure config:set MONGOLAB_URI=$(MONGO) APP_PASSWORD=generatedPassword APP_USERNAME=generatedUsername`
+
+1. Create remote to push application to
+`git remote add production dokku@agileventures.azure:metplus-cruncher-production`
+
+1. Deploy to production
+`git push production master`
 
 # Credits
 Naive Bayes Classifier is based on the source developed by Philipp Nolte.

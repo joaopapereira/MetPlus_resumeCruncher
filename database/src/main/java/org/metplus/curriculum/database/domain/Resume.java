@@ -21,7 +21,7 @@ import java.io.InputStream;
  * Class that will store the information of the resume
  */
 @Document
-public class Resume extends DocumentWithMetaData {
+public class Resume extends AbstractDocument {
     @Field
     private String filename;
     @Field

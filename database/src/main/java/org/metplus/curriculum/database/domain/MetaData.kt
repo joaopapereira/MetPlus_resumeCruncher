@@ -21,11 +21,9 @@ data class MetaData(
     private val orderedFields: List<String>? = null
 
     fun getOrderedFields(comparator: Comparator<Map.Entry<String, MetaDataField<*>>>): List<Map.Entry<String, MetaDataField<*>>> {
-        if (fields == null)
-            return ArrayList<Map.Entry<String, MetaDataField<*>>>()
         val fieldsData = fields.entries
-        if (fieldsData == null || fieldsData.size == 0)
-            return ArrayList<Map.Entry<String, MetaDataField<*>>>()
+        if (fieldsData.size == 0)
+            return ArrayList()
         val result = ArrayList<Map.Entry<String, MetaDataField<*>>>(fieldsData)
         Collections.sort<Map.Entry<String, MetaDataField<*>>>(result, comparator)
         return result

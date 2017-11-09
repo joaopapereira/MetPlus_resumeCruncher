@@ -1,12 +1,12 @@
-package org.metplus.curriculum.domain
+package org.metplus.curriculum.domain.job
 
 data class Job (
-    var title: String,
-    var jobId: String,
-    var description: String,
-    var titleMetaData: JobCruncherData? = null,
-    var descriptionMetaData: JobCruncherData? = null,
-    var starRating: Double = 0.toDouble()
+        var title: String,
+        var jobId: String,
+        var description: String,
+        var titleMetaData: JobCruncherData? = null,
+        var descriptionMetaData: JobCruncherData? = null,
+        var starRating: Double = 0.toDouble()
 ) {
 
     class JobBuilder {

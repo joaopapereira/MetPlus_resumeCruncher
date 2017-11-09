@@ -39,6 +39,7 @@ subprojects {
     apply plugin: 'eclipse'
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             url 'https://repo.spring.io/release'
