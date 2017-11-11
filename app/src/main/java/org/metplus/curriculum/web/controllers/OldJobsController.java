@@ -46,43 +46,6 @@ public class OldJobsController {
         this.jobCruncher = jobCruncher;
     }
 
-    @RequestMapping(value = {
-            BaseController.baseUrlApiv1 + "/job/{jobId}/update",
-            BaseController.baseUrlApiv2 + "/job/{jobId}/update",
-            BaseController.baseUrlApivTesting + "/job/{jobId}/update"},
-            method = RequestMethod.PATCH)
-    @ResponseBody
-    public ResponseEntity<GenericAnswer> update(@PathVariable("jobId") final String jobId,
-                                                @RequestParam(value = "title", required = false) String title,
-                                                @RequestParam(value = "description", required = false) String description) {
-        logger.trace("update(" + jobId + ", " + title + ", " + description + ")");
-        GenericAnswer answer = new GenericAnswer();
-        JobMongo job = jobRepository.findByJobId(jobId);
-        if (job == null) {
-            logger.error("JobMongo with job id '" + jobId + "' do not exist");
-            answer.setResultCode(ResultCodes.JOB_NOT_FOUND);
-            answer.setMessage("JobMongo not found");
-        } else {
-            logger.debug("Going to update the job");
-            if (title != null)
-                job.setTitle(title);
-            if (description != null)
-                job.setDescription(description);
-            try {
-                jobRepository.save(job);
-                jobCruncher.addWork(job);
-                logger.debug("JobMongo updated successfully");
-                answer.setResultCode(ResultCodes.SUCCESS);
-                answer.setMessage("JobMongo updated successfully");
-            } catch (Exception exp) {
-                logger.error("Unable to save the job '" + job + "' due to: " + exp.getMessage());
-                answer.setResultCode(ResultCodes.FATAL_ERROR);
-                answer.setMessage("Unable to save the job '" + job + "' due to: " + exp.getMessage());
-            }
-        }
-        return new ResponseEntity<>(answer, HttpStatus.OK);
-    }
-
     @RequestMapping(value = {BaseController.baseUrlApiv1 + "/job/reindex",
             BaseController.baseUrlApiv2 + "/job/reindex",
             BaseController.baseUrlApivTesting + "/job/reindex"},

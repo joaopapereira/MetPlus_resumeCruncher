@@ -55,7 +55,7 @@ dependencies {
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'com.jayway.jsonpath:json-path'
-}
+    testCompile project(path: ':business_logic', configuration: 'testArtifacts')}
 
 task copyLicense {
     outputs.file new File("$buildDir/LICENSE.md")

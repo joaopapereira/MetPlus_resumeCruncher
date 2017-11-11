@@ -26,6 +26,6 @@ class JobRepositoryFake : JobRepository {
     }
 
     override fun findById(jobId: String): Job? {
-        return allJobs[jobId]
+        return allJobs[jobId]?.copy()
     }
 }

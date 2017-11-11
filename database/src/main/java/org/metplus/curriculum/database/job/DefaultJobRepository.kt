@@ -1,19 +1,15 @@
 package org.metplus.curriculum.database.job
 
-import org.apache.pdfbox.pdfviewer.MapEntry
 import org.metplus.curriculum.database.domain.DocumentWithMetaData
 import org.metplus.curriculum.database.domain.JobMongo
 import org.metplus.curriculum.database.domain.MetaData
 import org.metplus.curriculum.database.domain.MetaDataField
 import org.metplus.curriculum.database.repository.JobDocumentRepository
-import org.metplus.curriculum.domain.Job
-import org.metplus.curriculum.domain.JobCruncherData
-import org.metplus.curriculum.domain.JobCruncherDataField
-import org.metplus.curriculum.domain.JobCruncherDataMap
-import org.metplus.curriculum.domain.job.JobRepository
+import org.metplus.curriculum.domain.job.*
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
-@Component
+@Repository
 class DefaultJobRepository(private val repository: JobDocumentRepository) : JobRepository {
 
     override fun save(job: Job): Job {

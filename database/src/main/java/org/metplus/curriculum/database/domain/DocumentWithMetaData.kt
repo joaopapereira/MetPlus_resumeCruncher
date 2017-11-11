@@ -1,12 +1,7 @@
 package org.metplus.curriculum.database.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.metplus.curriculum.domain.JobCruncherData
-import org.metplus.curriculum.domain.JobCruncherDataMap
 import org.springframework.data.mongodb.core.mapping.Field
-import org.springframework.data.mongodb.core.query.Meta
-
-import java.util.HashMap
 
 /**
  * Class that can be extended when we need a document

@@ -7,11 +7,12 @@ import org.junit.runners.Suite;
 import org.metplus.curriculum.cruncher.CruncherMetaData;
 import org.metplus.curriculum.cruncher.Matcher;
 import org.metplus.curriculum.cruncher.MatcherList;
-import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.MetaData;
 import org.metplus.curriculum.database.domain.Resume;
 import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
+import org.metplus.curriculum.domain.DomainFactories;
+import org.metplus.curriculum.domain.job.Job;
 import org.metplus.curriculum.process.JobCruncher;
 import org.metplus.curriculum.security.services.TokenService;
 import org.metplus.curriculum.test.BeforeAfterInterface;
@@ -37,6 +38,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.metplus.curriculum.domain.DomainFactoriesKt.buildJob;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -49,7 +51,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Tests for the JobMongo Controller
+ * Tests for the Job Controller
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -63,7 +65,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         JobControllerTests.MatchEndpointV2.class})
 public class JobControllerTests {
 
-    @WebMvcTest(controllers = OldJobsController.class)
+    @WebMvcTest(controllers = JobsController.class)
     @AutoConfigureRestDocs("build/generated-snippets")
     public static class DefaultJobTest extends BaseControllerTest implements BeforeAfterInterface {
         protected String versionUrl;
@@ -102,7 +104,7 @@ public class JobControllerTests {
     public static abstract class CreateEndpoint extends DefaultJobTest {
         @Test
         public void alreadyExists() throws Exception {
-            JobMongo job = new JobMongo();
+            Job job = buildJob("1");
             job.setJobId("1");
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(job);
 
@@ -115,7 +117,7 @@ public class JobControllerTests {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             requestParameters(
-                                    parameterWithName("jobId").description("JobMongo Identifier to create"),
+                                    parameterWithName("jobId").description("Job Identifier to create"),
                                     parameterWithName("title").description("Title of the job"),
                                     parameterWithName("description").description("Description of the job")
                             ),
@@ -125,13 +127,13 @@ public class JobControllerTests {
                             )
                     ));
             Mockito.verify(jobRepository).findByJobId("1");
-            Mockito.verify(jobRepository, Mockito.times(0)).save(Mockito.any(JobMongo.class));
-            Mockito.verify(jobCruncher, Mockito.times(0)).addWork(Mockito.any(JobMongo.class));
+            Mockito.verify(jobRepository, Mockito.times(0)).save(Mockito.any(Job.class));
+            Mockito.verify(jobCruncher, Mockito.times(0)).addWork(Mockito.any(Job.class));
         }
 
         @Test
         public void success() throws Exception {
-            JobMongo job = new JobMongo();
+            Job job = new Job();
             job.setJobId("1");
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(null);
 
@@ -144,7 +146,7 @@ public class JobControllerTests {
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
                             requestParameters(
-                                    parameterWithName("jobId").description("JobMongo Identifier to create"),
+                                    parameterWithName("jobId").description("Job Identifier to create"),
                                     parameterWithName("title").description("Title of the job"),
                                     parameterWithName("description").description("Description of the job")
                             ),
@@ -154,12 +156,12 @@ public class JobControllerTests {
                             )
                     ));
             Mockito.verify(jobRepository).findByJobId("1");
-            ArgumentCaptor<JobMongo> jobArgumentCaptor = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(jobArgumentCaptor.capture());
-            assertEquals("JobMongo title", jobArgumentCaptor.getValue().getTitle());
+            assertEquals("Job title", jobArgumentCaptor.getValue().getTitle());
             assertEquals("1", jobArgumentCaptor.getValue().getJobId());
             assertEquals("My awsome job description", jobArgumentCaptor.getValue().getDescription());
-            ArgumentCaptor<JobMongo> allJobs = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> allJobs = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(allJobs.capture());
             Mockito.verify(jobCruncher).addWork(allJobs.getValue());
         }
@@ -169,7 +171,7 @@ public class JobControllerTests {
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .param("jobId", "1")
-                    .param("title", "JobMongo title")
+                    .param("title", "Job title")
                     .param("description", "My awsome job description")
                     .header("X-Auth-Token", token)
             );
@@ -209,14 +211,14 @@ public class JobControllerTests {
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(null);
 
             updateJob(
-                    "JobMongo title", "My awsome job description")
+                    "Job title", "My awsome job description")
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
                     .andExpect(jsonPath("$.resultCode", is(ResultCodes.JOB_NOT_FOUND.toString())))
                     .andDo(document("job/update-not-exists",
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
-                            pathParameters(parameterWithName("jobId").description("JobMongo Identifier to create")),
+                            pathParameters(parameterWithName("jobId").description("Job Identifier to create")),
                             requestParameters(
                                     parameterWithName("title").description("Title of the job"),
                                     parameterWithName("description").description("Description of the job")
@@ -227,21 +229,21 @@ public class JobControllerTests {
                             )
                     ));
             Mockito.verify(jobRepository).findByJobId("1");
-            Mockito.verify(jobRepository, Mockito.times(0)).save((JobMongo) Mockito.any());
-            Mockito.verify(jobRepository, Mockito.times(0)).save(Mockito.any(JobMongo.class));
-            Mockito.verify(jobCruncher, Mockito.times(0)).addWork(Mockito.any(JobMongo.class));
+            Mockito.verify(jobRepository, Mockito.times(0)).save((Job) Mockito.any());
+            Mockito.verify(jobRepository, Mockito.times(0)).save(Mockito.any(Job.class));
+            Mockito.verify(jobCruncher, Mockito.times(0)).addWork(Mockito.any(Job.class));
         }
 
         @Test
         public void success() throws Exception {
-            JobMongo job = new JobMongo();
+            Job job = new Job();
             job.setJobId("1");
             job.setTitle("My current title");
             job.setDescription("My current description");
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(job);
 
             updateJob(
-                    "JobMongo title",
+                    "Job title",
                     "My awsome job description")
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
@@ -249,7 +251,7 @@ public class JobControllerTests {
                     .andDo(document("job/update-success",
                             requestHeaders(headerWithName("X-Auth-Token")
                                     .description("Authentication token retrieved from the authentication")),
-                            pathParameters(parameterWithName("jobId").description("JobMongo Identifier to create")),
+                            pathParameters(parameterWithName("jobId").description("Job Identifier to create")),
                             requestParameters(
                                     parameterWithName("title").description("Title of the job(Optional)"),
                                     parameterWithName("description").description("Description of the job(Optional)")
@@ -260,44 +262,44 @@ public class JobControllerTests {
                             )
                     ));
             Mockito.verify(jobRepository).findByJobId("1");
-            ArgumentCaptor<JobMongo> jobArgumentCaptor = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(jobArgumentCaptor.capture());
-            assertEquals("JobMongo title", jobArgumentCaptor.getValue().getTitle());
+            assertEquals("Job title", jobArgumentCaptor.getValue().getTitle());
             assertEquals("1", jobArgumentCaptor.getValue().getJobId());
             assertEquals("My awsome job description", jobArgumentCaptor.getValue().getDescription());
-            ArgumentCaptor<JobMongo> allJobs = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> allJobs = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(allJobs.capture());
             Mockito.verify(jobCruncher).addWork(allJobs.getValue());
         }
 
         @Test
         public void successOnlyTitle() throws Exception {
-            JobMongo job = new JobMongo();
+            Job job = new Job();
             job.setJobId("1");
             job.setTitle("My current title");
             job.setDescription("My current description");
             Mockito.when(jobRepository.findByJobId("1")).thenReturn(job);
 
             updateJob(
-                    "JobMongo title",
+                    "Job title",
                     null)
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
                     .andExpect(jsonPath("$.resultCode", is(ResultCodes.SUCCESS.toString())));
             Mockito.verify(jobRepository).findByJobId("1");
-            ArgumentCaptor<JobMongo> jobArgumentCaptor = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(jobArgumentCaptor.capture());
-            assertEquals("JobMongo title", jobArgumentCaptor.getValue().getTitle());
+            assertEquals("Job title", jobArgumentCaptor.getValue().getTitle());
             assertEquals("1", jobArgumentCaptor.getValue().getJobId());
             assertEquals("My current description", jobArgumentCaptor.getValue().getDescription());
-            ArgumentCaptor<JobMongo> allJobs = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> allJobs = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(allJobs.capture());
             Mockito.verify(jobCruncher).addWork(allJobs.getValue());
         }
 
         @Test
         public void successOnlyDescription() throws Exception {
-            JobMongo job = new JobMongo();
+            Job job = new Job();
             job.setJobId("1");
             job.setTitle("My current title");
             job.setDescription("My current description");
@@ -310,12 +312,12 @@ public class JobControllerTests {
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
                     .andExpect(jsonPath("$.resultCode", is(ResultCodes.SUCCESS.toString())));
             Mockito.verify(jobRepository).findByJobId("1");
-            ArgumentCaptor<JobMongo> jobArgumentCaptor = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(jobArgumentCaptor.capture());
             assertEquals("My current title", jobArgumentCaptor.getValue().getTitle());
             assertEquals("1", jobArgumentCaptor.getValue().getJobId());
             assertEquals("My awsome job description", jobArgumentCaptor.getValue().getDescription());
-            ArgumentCaptor<JobMongo> allJobs = ArgumentCaptor.forClass(JobMongo.class);
+            ArgumentCaptor<Job> allJobs = ArgumentCaptor.forClass(Job.class);
             Mockito.verify(jobRepository).save(allJobs.capture());
             Mockito.verify(jobCruncher).addWork(allJobs.getValue());
         }
@@ -393,22 +395,22 @@ public class JobControllerTests {
             resume.setMetaData(metaData1);
             Mockito.when(resumeRepository.findByUserId("1")).thenReturn(resume);
 
-            JobMongo job1 = new JobMongo();
+            Job job1 = new Job();
             job1.setJobId("1");
             job1.setStarRating(4.2);
-            JobMongo job2 = new JobMongo();
+            Job job2 = new Job();
             job2.setStarRating(1.0);
             job2.setJobId("2");
-            JobMongo job3 = new JobMongo();
+            Job job3 = new Job();
             job3.setJobId("3");
             job3.setStarRating(3.);
-            JobMongo job4 = new JobMongo();
+            Job job4 = new Job();
             job4.setJobId("2");
             job4.setStarRating(0.5);
-            List<JobMongo> matcher1Resumes = new ArrayList<>();
+            List<Job> matcher1Resumes = new ArrayList<>();
             matcher1Resumes.add(job1);
             matcher1Resumes.add(job2);
-            List<JobMongo> matcher2Resumes = new ArrayList<>();
+            List<Job> matcher2Resumes = new ArrayList<>();
             matcher2Resumes.add(job3);
             matcher2Resumes.add(job4);
 
@@ -536,22 +538,22 @@ public class JobControllerTests {
             resume.setMetaData(metaData1);
             Mockito.when(resumeRepository.findByUserId("1")).thenReturn(resume);
 
-            JobMongo job1 = new JobMongo();
+            Job job1 = new Job();
             job1.setJobId("1");
             job1.setStarRating(4.23);
-            JobMongo job2 = new JobMongo();
+            Job job2 = new Job();
             job2.setStarRating(1.0);
             job2.setJobId("2");
-            JobMongo job3 = new JobMongo();
+            Job job3 = new Job();
             job3.setJobId("3");
             job3.setStarRating(3.);
-            JobMongo job4 = new JobMongo();
+            Job job4 = new Job();
             job4.setJobId("2");
             job4.setStarRating(0.51);
-            List<JobMongo> matcher1Resumes = new ArrayList<>();
+            List<Job> matcher1Resumes = new ArrayList<>();
             matcher1Resumes.add(job1);
             matcher1Resumes.add(job2);
-            List<JobMongo> matcher2Resumes = new ArrayList<>();
+            List<Job> matcher2Resumes = new ArrayList<>();
             matcher2Resumes.add(job3);
             matcher2Resumes.add(job4);
 

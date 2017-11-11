@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Field
  * JobMongo Model
  */
 @Document
-data class JobMongo(
-        @Field val jobId: String,
-        @Field val title: String,
-        @Field val description: String,
+data class JobMongo @JvmOverloads constructor (
+        @Field val jobId: String = "",
+        @Field val title: String = "",
+        @Field val description: String = "",
         @Field val titleMetaData: DocumentWithMetaData? = null,
         @Field val descriptionMetaData: DocumentWithMetaData? = null,
         @Transient val starRating: Double = 0.0
