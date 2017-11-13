@@ -2,8 +2,6 @@ configurations {
     testArtifacts.extendsFrom testRun
 }
 buildscript {
-    ext.kotlin_version = '1.1.51'
-
     repositories {
         mavenCentral()
     }

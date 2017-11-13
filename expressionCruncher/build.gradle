@@ -9,6 +9,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-web")
     compile project(':core')
+    compile project(':business_logic')
     compile project(':database')
     testCompile("junit:junit:4.12")
     testCompile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
