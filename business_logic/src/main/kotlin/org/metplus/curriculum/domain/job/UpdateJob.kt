@@ -14,12 +14,12 @@ class UpdateJob(
         } catch (exception: Exception){
             return resultHandler.fatalError(job, exception)
         }
-        return resultHandler.success()
+        return resultHandler.success(job)
     }
 
     interface ResultHandler<T> {
         fun doesNotExist(jobId: String): T
-        fun success(): T
+        fun success(job: Job): T
         fun fatalError(job: Job, exception: Exception): T
     }
 }

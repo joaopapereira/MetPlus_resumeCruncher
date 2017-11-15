@@ -1,10 +1,11 @@
 package org.metplus.curriculum.domain.job.testDoubles
 
 import org.metplus.curriculum.domain.job.CreateJob
+import org.metplus.curriculum.domain.job.Job
 
 class CreateJobResultHandlerSpy : CreateJob.ResultHandler<Void?> {
     var jobExistsWasCalledWith: String? = null
-    var successWasCalled = false
+    var successWasCalledWith: Job? = null
     var fatalErrorWasCalledWith: String? = null
 
     override fun jobExists(jobId: String): Void? {
@@ -17,8 +18,8 @@ class CreateJobResultHandlerSpy : CreateJob.ResultHandler<Void?> {
         return null
     }
 
-    override fun success(): Void? {
-        successWasCalled = true
+    override fun success(job: Job): Void? {
+        successWasCalledWith = job
         return null
     }
 }

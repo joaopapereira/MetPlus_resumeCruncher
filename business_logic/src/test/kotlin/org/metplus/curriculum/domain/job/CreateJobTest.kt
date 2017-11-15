@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 
 import org.junit.Before
 import org.junit.Test
-import org.metplus.curriculum.domain.DomainFactories
+import org.metplus.curriculum.domain.buildJob
 import org.metplus.curriculum.domain.job.testDoubles.CreateJobResultHandlerSpy
 import org.metplus.curriculum.domain.job.testDoubles.JobRepositoryFake
 
@@ -19,7 +19,7 @@ class CreateJobTest {
 
     @Test
     fun `when jobId exists, it calls job exists callback`() {
-        var job = DomainFactories.buildJob()
+        var job = buildJob()
         job = jobRepositoryFake.save(job)
         val resultHandler = CreateJobResultHandlerSpy()
         val title = ""
@@ -49,7 +49,7 @@ class CreateJobTest {
 
     @Test
     fun `when jobId do not exist, it saves in database and call success callback`() {
-        val job = DomainFactories.buildJob()
+        val job = buildJob()
         job.jobId = "someJobId"
         val resultHandler = CreateJobResultHandlerSpy()
         createJob.create(
@@ -62,6 +62,6 @@ class CreateJobTest {
         val createdJob = jobRepositoryFake.findById("someJobId")
         assertThat(job).isEqualToComparingFieldByField(createdJob)
 
-        assertThat(resultHandler.successWasCalled).isEqualTo(true)
+        assertThat(resultHandler.successWasCalledWith).isEqualTo(job)
     }
 }

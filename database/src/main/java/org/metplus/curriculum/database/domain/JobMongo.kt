@@ -9,13 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Field
  */
 @Document
 data class JobMongo @JvmOverloads constructor (
-        @Field val jobId: String = "",
-        @Field val title: String = "",
-        @Field val description: String = "",
-        @Field val titleMetaData: DocumentWithMetaData? = null,
-        @Field val descriptionMetaData: DocumentWithMetaData? = null,
-        @Transient val starRating: Double = 0.0
-) : AbstractDocument() {
+        @Field var jobId: String = "",
+        @Field var title: String = "",
+        @Field var description: String = "",
+        @Field var titleMetaData: DocumentWithMetaData? = null,
+        @Field var descriptionMetaData: DocumentWithMetaData? = null,
+        @Transient var starRating: Double = 0.0
+) : DocumentWithMetaData() {
     /**
      * Check if the JobMongo have data from a specific cruncher
      * @param cruncherName Name of the cruncher
@@ -34,7 +34,7 @@ data class JobMongo @JvmOverloads constructor (
      * @return Meta data
      */
     fun getTitleCruncherData(cruncherName: String): MetaData? {
-        return if (titleMetaData == null) null else titleMetaData.metaData[cruncherName]
+        return if (titleMetaData == null) null else titleMetaData!!.metaData[cruncherName]
     }
 
     /**
@@ -43,6 +43,6 @@ data class JobMongo @JvmOverloads constructor (
      * @return Meta data
      */
     fun getDescriptionCruncherData(cruncherName: String): MetaData? {
-        return if (descriptionMetaData == null) null else descriptionMetaData.metaData[cruncherName]
+        return if (descriptionMetaData == null) null else descriptionMetaData!!.metaData[cruncherName]
     }
 }

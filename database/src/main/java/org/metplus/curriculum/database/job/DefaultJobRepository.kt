@@ -51,7 +51,7 @@ private fun <T> MetaDataField<T>.toJobCruncherDataField(): JobCruncherDataField<
     return JobCruncherDataField(data)
 }
 
-private fun Job.toJobMongo(): JobMongo {
+fun Job.toJobMongo(): JobMongo {
     return JobMongo(
             jobId = jobId,
             title = title,

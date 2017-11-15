@@ -7,8 +7,10 @@ repositories {
 
 apply plugin: 'org.springframework.boot'
 dependencies {
-    testCompile("org.springframework.boot:spring-boot-starter-web")
     compile project(':core')
     compile project(':database')
+    compile project(':business_logic')
     testCompile("junit:junit:4.12")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.boot:spring-boot-starter-web")
 }

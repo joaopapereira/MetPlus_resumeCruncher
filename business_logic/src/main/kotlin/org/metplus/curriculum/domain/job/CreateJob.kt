@@ -15,7 +15,7 @@ class CreateJob(private val jobRepository: JobRepository) {
             } catch (exp: Exception) {
                 return resultHandler.fatalError(jobId)
             }
-            return resultHandler.success()
+            return resultHandler.success(newJob)
         } else {
             return resultHandler.jobExists(jobId)
         }
@@ -24,6 +24,6 @@ class CreateJob(private val jobRepository: JobRepository) {
     interface ResultHandler<T> {
         fun jobExists(jobId: String): T
         fun fatalError(jobId: String): T
-        fun success(): T
+        fun success(job: Job): T
     }
 }

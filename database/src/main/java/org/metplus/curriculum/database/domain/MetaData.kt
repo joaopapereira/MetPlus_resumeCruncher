@@ -5,22 +5,23 @@ import org.metplus.curriculum.cruncher.CruncherMetaData
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.util.*
-import kotlin.Comparator
 
 
 /**
  * Created by joao on 3/16/16.
  * This class represents the meta data of a resume
  */
+typealias MetaDataComparator = Comparator<Map.Entry<String, MetaDataField<*>>>
+typealias OrderedMetaData = List<Map.Entry<String, MetaDataField<*>>>
 @Document
-data class MetaData(
+open class MetaData(
     @Field var fields: MutableMap<String, MetaDataField<*>> = mutableMapOf()
 ) : AbstractDocument(), CruncherMetaData {
 
     @JsonIgnore
     private val orderedFields: List<String>? = null
 
-    fun getOrderedFields(comparator: Comparator<Map.Entry<String, MetaDataField<*>>>): List<Map.Entry<String, MetaDataField<*>>> {
+    fun getOrderedFields(comparator: MetaDataComparator): OrderedMetaData {
         val fieldsData = fields.entries
         if (fieldsData.size == 0)
             return ArrayList()

@@ -48,7 +48,7 @@ class UpdateJobTest {
             title = "some title",
             description = "some other description"
         ))
-        assertThat(resultHandlerSpy.successWasCalled).isEqualTo(true)
+        assertThat(resultHandlerSpy.successWasCalledWith).isEqualTo(true)
     }
 
     @Test
@@ -73,7 +73,7 @@ class UpdateJobTest {
             title = "some other title",
             description = "some description"
         ))
-        assertThat(resultHandlerSpy.successWasCalled).isEqualTo(true)
+        assertThat(resultHandlerSpy.successWasCalledWith).isEqualTo(true)
     }
 
     @Test
@@ -98,7 +98,7 @@ class UpdateJobTest {
             title = "some other title",
             description = "some other description"
         ))
-        assertThat(resultHandlerSpy.successWasCalled).isEqualTo(true)
+        assertThat(resultHandlerSpy.successWasCalledWith).isEqualTo(true)
     }
 
     @Test
@@ -126,7 +126,7 @@ class UpdateJobTest {
 class ResultHandlerSpy : UpdateJob.ResultHandler<Unit> {
     var doesNotExistWasCalledWith: String? = null
 
-    var successWasCalled = false
+    var successWasCalledWith: Job? = null
 
     var fatalErrorWasCalled = false
 
@@ -134,8 +134,8 @@ class ResultHandlerSpy : UpdateJob.ResultHandler<Unit> {
         doesNotExistWasCalledWith = jobId
     }
 
-    override fun success() {
-        successWasCalled = true
+    override fun success(job: Job) {
+        successWasCalledWith = job
     }
 
     override fun fatalError(job: Job, exception: Exception) {

@@ -3,7 +3,7 @@ package org.metplus.curriculum.domain.job
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.metplus.curriculum.domain.DomainFactories.buildJob
+import org.metplus.curriculum.domain.buildJob
 
 abstract class JobRepositoryTest {
 

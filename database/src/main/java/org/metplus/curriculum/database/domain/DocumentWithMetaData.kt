@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Field
  * Class that can be extended when we need a document
  * with meta data
  */
-class DocumentWithMetaData(
-        @Field val metaData: Map<String, MetaData> = mapOf()
+open class DocumentWithMetaData(
+        @Field var metaData: Map<String, MetaData> = mapOf()
 ) : AbstractDocument() {
     /**
      * Check if a cruncher already have processed this resume
