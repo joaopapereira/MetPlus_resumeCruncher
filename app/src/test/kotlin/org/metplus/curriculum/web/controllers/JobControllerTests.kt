@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
-import org.metplus.curriculum.cruncher.MatcherList
+import org.metplus.curriculum.domain.cruncher.MatcherList
 import org.metplus.curriculum.database.domain.JobMongo
 import org.metplus.curriculum.database.job.toJobMongo
 import org.metplus.curriculum.database.repository.ResumeRepository

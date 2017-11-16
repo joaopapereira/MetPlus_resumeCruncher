@@ -1,6 +1,6 @@
 package org.metplus.curriculum.process;
 
-import org.metplus.curriculum.cruncher.Cruncher;
+import org.metplus.curriculum.domain.cruncher.Cruncher;
 import org.metplus.curriculum.database.domain.DocumentWithMetaData;
 import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.MetaData;

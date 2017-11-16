@@ -6,20 +6,22 @@ buildscript {
     dependencies {
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:1.5.2"
         classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.6'
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE"
+        classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:1.1.4.RELEASE"
     }
 }
 
 plugins {
     id "org.asciidoctor.convert" version "1.5.3"
 }
-import org.apache.tools.ant.filters.ReplaceTokens
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'spring-cloud-contract'
 
-//repositories {
-//    mavenCentral()
-//    maven {
-//        url 'https://repo.spring.io/release'
-//    }
-//}
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-contract-dependencies:1.1.4.RELEASE'
+    }
+}
 
 apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
@@ -55,7 +57,16 @@ dependencies {
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'com.jayway.jsonpath:json-path'
-    testCompile project(path: ':business_logic', configuration: 'testArtifacts')}
+    testCompile project(path: ':business_logic', configuration: 'testArtifacts')
+    testCompile 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+
+}
+
+// In this section you define all Spring Cloud Contract Verifier Gradle Plugin properties
+contracts {
+    baseClassForTests = 'com.example.MvcTest'
+    // fully qualified name to a class that will be the base class for your generated test classes
+}
 
 task copyLicense {
     outputs.file new File("$buildDir/LICENSE.md")

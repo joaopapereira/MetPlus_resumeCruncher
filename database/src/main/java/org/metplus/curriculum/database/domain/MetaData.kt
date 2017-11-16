@@ -1,7 +1,7 @@
 package org.metplus.curriculum.database.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.metplus.curriculum.cruncher.CruncherMetaData
+import org.metplus.curriculum.domain.cruncher.CruncherMetaData
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.util.*

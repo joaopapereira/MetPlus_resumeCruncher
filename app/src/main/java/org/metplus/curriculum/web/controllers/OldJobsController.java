@@ -1,7 +1,7 @@
 package org.metplus.curriculum.web.controllers;
 
-import org.metplus.curriculum.cruncher.Matcher;
-import org.metplus.curriculum.cruncher.MatcherList;
+import org.metplus.curriculum.domain.cruncher.Matcher;
+import org.metplus.curriculum.domain.cruncher.MatcherList;
 import org.metplus.curriculum.database.domain.JobMongo;
 import org.metplus.curriculum.database.domain.Resume;
 import org.metplus.curriculum.database.repository.JobDocumentRepository;

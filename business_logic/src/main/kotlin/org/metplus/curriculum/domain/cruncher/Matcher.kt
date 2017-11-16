@@ -1,24 +1,22 @@
-package org.metplus.curriculum.cruncher;
-
-import java.util.List;
+package org.metplus.curriculum.domain.cruncher
 
 /**
  * Created by joao on 3/21/16.
  * Interface for the matchers of resumes with title and description of jobs
  * @param <Entry> Resume type
  * @param <Result> Job Type
- */
-public interface Matcher<Entry, Result> {
-
-    List<Result> match(Entry entry);
-    List<Entry> matchInverse(Result entry);
+</Result></Entry> */
+interface Matcher<Entry, Result> {
 
     /**
      * Retrieve the name of the cruncher associated with the
      * matcher
      * @return Name of the cruncher
      */
-    String getCruncherName();
+    val cruncherName: String
+
+    fun match(entry: Entry): List<Result>
+    fun matchInverse(entry: Result): List<Entry>
 
     /**
      * Check the similarity between a resume and a job
@@ -26,5 +24,5 @@ public interface Matcher<Entry, Result> {
      * @param job
      * @return Range between 0 and 5 being 5 similar
      */
-    double matchSimilarity(Entry resume, Result job);
+    fun matchSimilarity(resume: Entry, job: Result): Double
 }

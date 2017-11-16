@@ -1,6 +1,6 @@
 package org.metplus.curriculum.cruncher.expressionCruncher
 
-import org.metplus.curriculum.cruncher.Matcher
+import org.metplus.curriculum.domain.cruncher.Matcher
 import org.metplus.curriculum.database.domain.*
 import org.metplus.curriculum.database.repository.JobDocumentRepository
 import org.metplus.curriculum.database.repository.ResumeRepository
@@ -19,7 +19,12 @@ class MatcherImpl
  * @param cruncher Cruncher implementation
  * @param resumeRepository Resume repository to retrieve the resumes
  */
-(private val cruncher: CruncherImpl, private val resumeRepository: ResumeRepository, private val jobRepository: JobDocumentRepository) : Matcher<Resume, JobMongo> {
+(private val cruncher: CruncherImpl,
+ private val resumeRepository: ResumeRepository,
+ private val jobRepository: JobDocumentRepository
+) : Matcher<Resume, JobMongo> {
+    override val cruncherName: String
+        get() = "ExpressionMatcher"
 
     fun match(title: String, description: String): List<Resume>? {
         logger.trace("match($title, $description)")

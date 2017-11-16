@@ -1,6 +1,6 @@
 package org.metplus.curriculum.process;
 
-import org.metplus.curriculum.cruncher.CrunchersList;
+import org.metplus.curriculum.domain.cruncher.CrunchersList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

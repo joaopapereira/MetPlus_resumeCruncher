@@ -1,6 +1,6 @@
 package org.metplus.curriculum.cruncher.naivebayes
 
-import org.metplus.curriculum.cruncher.Matcher
+import org.metplus.curriculum.domain.cruncher.Matcher
 import org.metplus.curriculum.database.domain.*
 import org.metplus.curriculum.database.repository.JobDocumentRepository
 import org.metplus.curriculum.database.repository.ResumeRepository

@@ -1,10 +1,8 @@
 package org.metplus.curriculum.cruncher.expressionCruncher;
 
-import org.metplus.curriculum.cruncher.Cruncher;
-import org.metplus.curriculum.cruncher.CruncherMetaData;
-import org.metplus.curriculum.database.domain.MetaData;
+import org.metplus.curriculum.domain.cruncher.Cruncher;
+import org.metplus.curriculum.domain.cruncher.CruncherMetaData;
 import org.metplus.curriculum.database.domain.MetaDataField;
-import org.metplus.curriculum.database.domain.Resume;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

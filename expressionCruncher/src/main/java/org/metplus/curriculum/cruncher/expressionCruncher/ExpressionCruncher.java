@@ -1,13 +1,13 @@
 package org.metplus.curriculum.cruncher.expressionCruncher;
 
-import org.metplus.curriculum.cruncher.Cruncher;
-import org.metplus.curriculum.cruncher.Matcher;
+import org.metplus.curriculum.domain.cruncher.Cruncher;
+import org.metplus.curriculum.domain.cruncher.Matcher;
 import org.metplus.curriculum.database.domain.*;
 import org.metplus.curriculum.database.exceptions.CruncherSettingsNotFound;
 import org.metplus.curriculum.database.repository.JobDocumentRepository;
 import org.metplus.curriculum.database.repository.ResumeRepository;
 import org.metplus.curriculum.database.repository.SettingsRepository;
-import org.metplus.curriculum.init.CruncherInitializer;
+import org.metplus.curriculum.domain.CruncherInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
