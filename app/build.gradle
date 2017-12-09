@@ -69,10 +69,12 @@ task copyLicense {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task startCruncher <<{
-    bootRun { 
-        systemProperties = System.properties
-	systemProperty "spring.profiles.active", System.env.SPRING_PROFILES_ACTIVE != null ? System.env.SPRING_PROFILES_ACTIVE : "development" 
+task startCruncher {
+    doLast {
+        bootRun {
+            systemProperties = System.properties
+            systemProperty "spring.profiles.active", System.env.SPRING_PROFILES_ACTIVE != null ? System.env.SPRING_PROFILES_ACTIVE : "development"
+        }
     }
 }
 startCruncher.finalizedBy bootRun
@@ -137,8 +139,10 @@ if(System.env.SPRING_PROFILES_ACTIVE.equals('production')) {
     tasks.asciidoctor.enabled = false
 }
 
-clean << {
-    project.file('cruncher.jar').delete()
+clean {
+    doLast {
+        project.file('cruncher.jar').delete()
+    }
 }
 
 processResources {
